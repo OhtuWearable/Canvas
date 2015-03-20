@@ -52,10 +52,15 @@ public class CanvasElement extends Activity {
 
     /**
      * parses colors from color string
-     * @param colors colors as a string formatted 'rgb(rrr,ggg,bbb)'
+     * @param colors colors as a string formatted 'rgb(rrr,ggg,bbb)' or '#rrggbb'
      */
     private void parseColors(String colors){
-        String pattern = "rgb\\(\\d\\d?\\d?,\\d\\d?\\d?,\\d\\d?\\d?\\)";
+        String pattern = "#([A-F0-9]||[a-f0-9]){6}";
+        if (colors.matches(pattern)){
+            paint.setColor(Color.parseColor(colors));
+            return;
+        }
+        pattern = "rgb\\(\\d\\d?\\d?,\\d\\d?\\d?,\\d\\d?\\d?\\)";
         if (!colors.matches(pattern)) return;
 
         colors = colors.substring(4);
@@ -71,9 +76,9 @@ public class CanvasElement extends Activity {
         int b = Integer.parseInt(colors.substring(colors.indexOf(',') + 1, colors.length()-1));
         if (b > 255) return;
 
-        this.r = r;
-        this.g = g;
-        this.b = b;
+        //this.r = r;
+        //this.g = g;
+        //this.b = b;
 
         paint.setColor(Color.argb(255, r, g, b));
 
