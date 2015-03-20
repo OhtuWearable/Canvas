@@ -18,6 +18,7 @@ public class MainActivity extends Activity {
                 CanvasElement ce = new CanvasElement(100, 100, stub);
                 ce.fillStyle="rgb(23,231,12)";
                 ce.fillRect(20, 20, 40, 40);
+                DuktapeWrapper wrapper = new DuktapeWrapper(stub.getContext());
             }
         });
     }
