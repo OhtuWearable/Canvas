@@ -23,12 +23,22 @@ public class DuktapeWrapper {
     private Context ctx;
     private String canvasScript;
     private static WatchViewStub stub;
+    private static CanvasElement canvasElement;
 
     public native void runScript(String canvas, String script);
 
     public DuktapeWrapper(WatchViewStub stub){
         this.ctx = stub.getContext();
         this.stub = stub;
+        DisplayMetrics metrics = new DisplayMetrics();
+        WindowManager wm = (WindowManager) stub.getContext().getSystemService(Context.WINDOW_SERVICE);
+        wm.getDefaultDisplay().getMetrics(metrics);
+        int canvasWidth = metrics.widthPixels;
+        int canvasHeight = metrics.heightPixels;
+
+        Log.d("Canvas", "width: " + canvasWidth + " - height: " + canvasHeight);
+
+        this.canvasElement = new CanvasElement(canvasWidth, canvasHeight, stub);
     }
 
     /**
@@ -67,17 +77,9 @@ public class DuktapeWrapper {
         int width = Integer.parseInt(strwidth);
         int height = Integer.parseInt(strheight);
 
-        DisplayMetrics metrics = new DisplayMetrics();
-        WindowManager wm = (WindowManager) stub.getContext().getSystemService(Context.WINDOW_SERVICE);
-        wm.getDefaultDisplay().getMetrics(metrics);
-        int canvasWidth = metrics.widthPixels;
-        int canvasHeight = metrics.heightPixels;
 
-        Log.d("Canvas", "width: " + canvasWidth + " - height: " + canvasHeight);
-
-        CanvasElement ce = new CanvasElement(canvasWidth, canvasHeight, stub);
-        ce.fillStyle=fillStyle;
-        ce.fillRect(x, y, width, height);
+        canvasElement.fillStyle=fillStyle;
+        canvasElement.fillRect(x, y, width, height);
 
         return "canvas drawn";
     }
