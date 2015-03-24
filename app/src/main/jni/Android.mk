@@ -16,6 +16,8 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
+LOCAL_LDLIBS := -llog
+
 LOCAL_MODULE    := jsModule
 LOCAL_SRC_FILES := duktape_interface.c,duktape.c
 

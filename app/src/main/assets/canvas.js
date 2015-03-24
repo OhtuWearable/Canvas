@@ -14,7 +14,8 @@ Canvas.prototype.getContext = function(ctx){
 
 Canvas.prototype.fillRect  = function (x, y, width, height){
     //ToDo: implement call to JNI->JAVA CanvasElement class fillRect() method
-    print('fillrect');
+    native_request_send(this.fillStyle, x, y, width, height);
+    return "fillrect";
 };
 
 function Document(){
@@ -22,7 +23,7 @@ function Document(){
 
 Document.prototype.getElementById = function(id){
     //ToDo: replace hardcoded values with real screen width/height from device
-    return new Canvas(100, 100);
+    return new Canvas(150, 150);
 };
 
 var document = new Document();

@@ -15,6 +15,7 @@ android {
             moduleName "jsModule"
             cFlags "-std=c99"
             ldLibs "m"
+            ldLibs "log"
         }
     }
     buildTypes {
