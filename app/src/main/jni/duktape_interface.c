@@ -21,23 +21,41 @@ duk_ret_t native_request_send(duk_context *ctx){
     //String fillStyle, int x, int y, int width, int height
     const char *fillstyle = duk_require_string(ctx, 0);
     const char *x = duk_require_string(ctx, 1);
+    __android_log_write(ANDROID_LOG_DEBUG, "JNI", "x");
     const char *y = duk_require_string(ctx, 2);
+    __android_log_write(ANDROID_LOG_DEBUG, "JNI", "y");
     const char *width = duk_require_string(ctx, 3);
+    __android_log_write(ANDROID_LOG_DEBUG, "JNI", "width");
     const char *height = duk_require_string(ctx, 4);
+
+
 
     (void) duk_get_global_string(ctx, "JNIEnv");
     JNIEnv *env = (JNIEnv *)duk_require_pointer(ctx, -1);
-    jclass duktape_wrapper_jclass = (*env)->FindClass(env, "DuktapeWrapper");
-    const char *signature = "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;J)Ljava/lang/String;";
+    //jclass duktape_wrapper_jclass = (*env)->FindClass(env, "DuktapeWrapper");
+
+    (void) duk_get_global_string(ctx, "JNIObj");
+    jobject *obj = (JNIEnv *)duk_require_pointer(ctx, -1);
+
+    jclass duktape_wrapper_jclass = (*env)->GetObjectClass(env, obj);
+
+    const char *signature = "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;";
+
     jmethodID perform_drawCanvas_jmethodID = (*env)->GetStaticMethodID(env, duktape_wrapper_jclass, "drawCanvas", signature);
+
+
+
     jstring jfillstyle = (*env)->NewStringUTF(env, fillstyle);
+
     jstring jx = (*env)->NewStringUTF(env, x);
     jstring jy = (*env)->NewStringUTF(env, y);
+
     jstring jwidth = (*env)->NewStringUTF(env, width);
     jstring jheight = (*env)->NewStringUTF(env, height);
 
     jstring response_jstring = (jstring) (*env)->CallStaticObjectMethod(env, duktape_wrapper_jclass, perform_drawCanvas_jmethodID, jfillstyle, jx, jy, jwidth, jheight);
-
+    __android_log_write(ANDROID_LOG_DEBUG, "JNI", "kaatuuko");
+    //__android_log_write(ANDROID_LOG_DEBUG, "JNI", response_jstring);
     duk_pop(ctx);
 
     return 1;
@@ -58,8 +76,13 @@ JNIEXPORT void JNICALL Java_com_ohtu_wearable_canvas_DuktapeWrapper_runScript
    	duk_put_prop_string(ctx, -2, "JNIEnv");
    	duk_pop(ctx);  /* pop global */
 
+    duk_push_global_object(ctx);
+    duk_push_pointer(ctx, thisObj);
+    duk_put_prop_string(ctx, -2, "JNIObj");
+    duk_pop(ctx); /* pop global */
+
    	duk_push_global_object(ctx);
-   	duk_push_c_function(ctx, native_request_send, 2);
+   	duk_push_c_function(ctx, native_request_send, 5);
    	duk_put_prop_string(ctx, -2, "native_request_send");
    	duk_pop(ctx);  /* pop global */
 

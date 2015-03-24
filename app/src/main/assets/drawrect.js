@@ -3,8 +3,8 @@
 */
 
 var canvas = document.getElementById('myCanvas');
-var cwidth = 150;
-var cheight = 150;
+var cwidth = 10;
+var cheight = 10;
 var ctx = canvas.getContext("2d");
-ctx.fillStyle = "#ff69b4";
-ctx.fillRect(20,20, cwidth, cheight);
+ctx.fillStyle = "#ffffff";
+ctx.fillRect(150, 150, cwidth, cheight);

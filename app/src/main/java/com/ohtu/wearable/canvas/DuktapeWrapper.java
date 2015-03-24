@@ -23,22 +23,6 @@ public class DuktapeWrapper {
 
     public native void runScript(String canvas, String script);
 
-    public static String drawCanvas(String fillStyle, String strx, String stry, String strwidth, String strheight){
-
-        Log.d("Draw", "drawCanvas " + fillStyle + " " + strx + " " + stry + " " + strwidth + " " + strheight);
-
-        int x = Integer.parseInt(strx);
-        int y = Integer.parseInt(stry);
-        int width = Integer.parseInt(strwidth);
-        int height = Integer.parseInt(strheight);
-
-        CanvasElement ce = new CanvasElement(width, height, stub);
-        ce.fillStyle=fillStyle;
-        ce.fillRect(x, y, width, height);
-
-        return "canvas drawn";
-    }
-
     public DuktapeWrapper(WatchViewStub stub){
         this.ctx = stub.getContext();
         this.stub = stub;
@@ -69,5 +53,23 @@ public class DuktapeWrapper {
             return false;
         }
         return true;
+    }
+
+    public static String drawCanvas(String fillStyle, String strx, String stry, String strwidth, String strheight){
+
+        Log.d("Draw", "drawCanvas " + fillStyle + " " + strx + " " + stry + " " + strwidth + " " + strheight);
+
+        int x = Integer.parseInt(strx);
+        int y = Integer.parseInt(stry);
+        int width = Integer.parseInt(strwidth);
+        int height = Integer.parseInt(strheight);
+
+        Log.d("Draw", "drawCanvas " + fillStyle + " " + strx + " " + stry + " " + strwidth + " " + strheight);
+
+        CanvasElement ce = new CanvasElement(width, height, stub);
+        ce.fillStyle=fillStyle;
+        ce.fillRect(x, y, width, height);
+
+        return "canvas drawn";
     }
 }

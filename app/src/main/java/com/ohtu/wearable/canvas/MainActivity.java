@@ -20,10 +20,11 @@ public class MainActivity extends Activity {
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
+                /*
                 CanvasElement ce = new CanvasElement(100, 100, stub);
                 //ce.fillStyle="rgb(23,231,12)";
-                ce.fillStyle="#ff69b4";
-                ce.fillRect(20, 20, 40, 40);
+                ce.fillStyle="#ffffff";
+                ce.fillRect(20, 20, 40, 40);*/
                 loadAndRunScript(stub);
             }
         });

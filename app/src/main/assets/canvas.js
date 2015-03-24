@@ -14,8 +14,8 @@ Canvas.prototype.getContext = function(ctx){
 
 Canvas.prototype.fillRect  = function (x, y, width, height){
     //ToDo: implement call to JNI->JAVA CanvasElement class fillRect() method
-    native_request_send(this.fillStyle, x, y, width, height);
-    return "fillrect";
+    native_request_send(this.fillStyle, x.toString(), y.toString(), width.toString(), height.toString());
+    return "rectangle drawn";
 };
 
 function Document(){
