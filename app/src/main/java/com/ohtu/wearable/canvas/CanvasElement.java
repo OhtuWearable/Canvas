@@ -45,7 +45,7 @@ public class CanvasElement extends Activity {
      */
     public void fillRect(int x, int y, int width, int height){
         parseColors(this.fillStyle);
-        canvas.drawRect(x, y, width, height, paint);
+        canvas.drawRect(x, y, x+width, y+height, paint);
         LinearLayout ll = (LinearLayout) stub.findViewById(R.id.canvas);
         ll.setBackgroundDrawable(new BitmapDrawable(bitmap));
     }

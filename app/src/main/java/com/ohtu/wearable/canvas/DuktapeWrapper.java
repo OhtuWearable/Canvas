@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.support.wearable.view.WatchViewStub;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.WindowManager;
 
 import java.io.InputStream;
 
@@ -43,15 +46,15 @@ public class DuktapeWrapper {
             byte[] b = new byte[is.available()];
             is.read(b);
             canvasScript = new String(b);
-            Log.d("wrapper", canvasScript);
-            Log.d("wrapper", script);
-            runScript(canvasScript, script);
-            //Log.d("DW", canvasScript);
+
         } catch (Exception e) {
             canvasScript = "";
             Log.e("DW","Error: can't read file.");
             return false;
         }
+        Log.d("wrapper", canvasScript);
+        Log.d("wrapper", script);
+        runScript(canvasScript, script);
         return true;
     }
 
@@ -64,9 +67,15 @@ public class DuktapeWrapper {
         int width = Integer.parseInt(strwidth);
         int height = Integer.parseInt(strheight);
 
-        Log.d("Draw", "drawCanvas " + fillStyle + " " + strx + " " + stry + " " + strwidth + " " + strheight);
+        DisplayMetrics metrics = new DisplayMetrics();
+        WindowManager wm = (WindowManager) stub.getContext().getSystemService(Context.WINDOW_SERVICE);
+        wm.getDefaultDisplay().getMetrics(metrics);
+        int canvasWidth = metrics.widthPixels;
+        int canvasHeight = metrics.heightPixels;
 
-        CanvasElement ce = new CanvasElement(width, height, stub);
+        Log.d("Canvas", "width: " + canvasWidth + " - height: " + canvasHeight);
+
+        CanvasElement ce = new CanvasElement(canvasWidth, canvasHeight, stub);
         ce.fillStyle=fillStyle;
         ce.fillRect(x, y, width, height);
 
