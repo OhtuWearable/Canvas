@@ -1,5 +1,5 @@
 /**
-* draws rectangle to canvas
+* draws some rectangles and lines to canvas
 */
 
 var canvas = document.getElementById('myCanvas');
