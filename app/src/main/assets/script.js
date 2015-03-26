@@ -9,7 +9,9 @@ var ctx = canvas.getContext("2d");
 ctx.fillStyle = "#ffffff";
 ctx.fillRect(150, 150, cwidth, cheight);
 
-canvas = document.getElementById('myCanvas');
-var ctx = canvas.getContext("2d");
 ctx.fillStyle = "rgb(100,2,3)";
 ctx.fillRect(110, 110, 30, 100);
+
+ctx.lineTo(130,140);
+ctx.fillStyle = "rgb(23,119,255)";
+ctx.lineTo(250,0);

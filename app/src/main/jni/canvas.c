@@ -1,0 +1,71 @@
+#include <string.h>
+#include <jni.h>
+#include <android/log.h>
+#include "duktape.h"
+
+duk_ret_t jni_draw_rect(duk_context *ctx){
+
+    //get parameters frim DukTape heape
+    const char *fillstyle = duk_require_string(ctx, 0);
+    const char *x = duk_require_string(ctx, 1);
+    const char *y = duk_require_string(ctx, 2);
+    const char *width = duk_require_string(ctx, 3);
+    const char *height = duk_require_string(ctx, 4);
+
+    //get pointers to JNIEnv and JNIObj frum DukTape heap
+    (void) duk_get_global_string(ctx, "JNIEnv");
+    JNIEnv *env = (JNIEnv *)duk_require_pointer(ctx, -1);
+    (void) duk_get_global_string(ctx, "JNIObj");
+    jobject *obj = (jobject *)duk_require_pointer(ctx, -1);
+
+    jclass duktape_wrapper_jclass = (*env)->GetObjectClass(env, obj);
+
+    //paramaters (string fillstyle, string x, string y, string width, string height) and return parameter (string)
+    const char *signature = "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;";
+    //get DuktapeWrapper.fillRect methodID
+    jmethodID perform_fillRect_jmethodID = (*env)->GetStaticMethodID(env, duktape_wrapper_jclass, "fillRect", signature);
+
+    //jstrings from parameter strings
+    jstring jfillstyle = (*env)->NewStringUTF(env, fillstyle);
+    jstring jx = (*env)->NewStringUTF(env, x);
+    jstring jy = (*env)->NewStringUTF(env, y);
+    jstring jwidth = (*env)->NewStringUTF(env, width);
+    jstring jheight = (*env)->NewStringUTF(env, height);
+
+    //call DuktapeWrapper.fillRect method with parameters and save response to response_jstring
+    jstring response_jstring = (jstring) (*env)->CallStaticObjectMethod(env, duktape_wrapper_jclass, perform_fillRect_jmethodID, jfillstyle, jx, jy, jwidth, jheight);
+
+    duk_pop(ctx);
+
+    return 1;
+}
+
+duk_ret_t jni_line_to(duk_context *ctx){
+
+    //String fillStyle, int x, int y
+    const char *fillstyle = duk_require_string(ctx, 0);
+    const char *x = duk_require_string(ctx, 1);
+    const char *y = duk_require_string(ctx, 2);
+
+    (void) duk_get_global_string(ctx, "JNIEnv");
+    JNIEnv *env = (JNIEnv *)duk_require_pointer(ctx, -1);
+
+    (void) duk_get_global_string(ctx, "JNIObj");
+    jobject *obj = (jobject *)duk_require_pointer(ctx, -1);
+
+    jclass duktape_wrapper_jclass = (*env)->GetObjectClass(env, obj);
+
+    const char *signature = "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;";
+
+    jmethodID perform_lineTo_jmethodID = (*env)->GetStaticMethodID(env, duktape_wrapper_jclass, "lineTo", signature);
+
+    jstring jfillstyle = (*env)->NewStringUTF(env, fillstyle);
+    jstring jx = (*env)->NewStringUTF(env, x);
+    jstring jy = (*env)->NewStringUTF(env, y);
+
+    jstring response_jstring = (jstring) (*env)->CallStaticObjectMethod(env, duktape_wrapper_jclass, perform_lineTo_jmethodID, jfillstyle, jx, jy);
+
+    duk_pop(ctx);
+
+    return 1;
+}

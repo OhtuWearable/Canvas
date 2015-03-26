@@ -11,24 +11,31 @@ import android.util.Log;
 import android.widget.LinearLayout;
 
 /**
- * Created by sjsaarin on 20.3.2015.
+ * emulates HTML5 canvas functionality on android.canvas
  */
 public class CanvasElement extends Activity {
 
     private Paint paint;
     private Canvas canvas;
     private Bitmap bitmap;
-    private int r;
-    private int g;
-    private int b;
-    private String color;
     private WatchViewStub stub;
+    private float lastX;
+    private float lastY;
 
     public String fillStyle;
 
+    /**
+     * Intializes canvas for drawing, sets last point to (0,0) and color to black rgb(0,0,0)
+     *
+     * @param width
+     * @param height
+     * @param stub
+     */
     public CanvasElement(int width, int height, WatchViewStub stub){
         this.stub = stub;
         paint = new Paint();
+        lastX = 0;
+        lastY = 0;
         fillStyle = "rgb(0,0,0)";
         parseColors(fillStyle);
         bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -51,7 +58,24 @@ public class CanvasElement extends Activity {
     }
 
     /**
+     * Draws line from last point to point given as parameters
+     *
+     * @param x
+     * @param y
+     */
+    public void lineTo(int x, int y){
+        parseColors(this.fillStyle);
+        //ToDo: implement line drawing here
+
+        canvas.drawLine(lastX, lastY, x, y, paint);
+        lastX = x;
+        lastY = y;
+        Log.d("Canvas Element", "drawing line from: " + lastX + ", " + lastY +"," + " to: " + x +", " + y);
+    }
+
+    /**
      * parses colors from color string
+     *
      * @param colors colors as a string formatted 'rgb(rrr,ggg,bbb)' or '#rrggbb'
      */
     private void parseColors(String colors){
@@ -76,11 +100,8 @@ public class CanvasElement extends Activity {
         int b = Integer.parseInt(colors.substring(colors.indexOf(',') + 1, colors.length()-1));
         if (b > 255) return;
 
-        //this.r = r;
-        //this.g = g;
-        //this.b = b;
-
         paint.setColor(Color.argb(255, r, g, b));
 
     }
+
 }

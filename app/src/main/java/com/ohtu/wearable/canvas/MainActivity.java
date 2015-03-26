@@ -1,12 +1,10 @@
 package com.ohtu.wearable.canvas;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
-import android.widget.TextView;
 
 import java.io.InputStream;
 
@@ -20,23 +18,18 @@ public class MainActivity extends Activity {
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
-                /*
-                CanvasElement ce = new CanvasElement(100, 100, stub);
-                //ce.fillStyle="rgb(23,231,12)";
-                ce.fillStyle="#ffffff";
-                ce.fillRect(20, 20, 40, 40);*/
                 loadAndRunScript(stub);
             }
         });
-
     }
 
+    //loads script from file and calls duktape wrapper to execute script
     private void loadAndRunScript(WatchViewStub stub){
         DuktapeWrapper wrapper = new DuktapeWrapper(stub);
 
         try {
             AssetManager am = stub.getContext().getAssets();
-            InputStream is = am.open("drawrect.js");
+            InputStream is = am.open("script.js");
 
             byte[] b = new byte[is.available()];
             is.read(b);

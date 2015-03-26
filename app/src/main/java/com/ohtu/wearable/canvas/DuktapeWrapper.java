@@ -1,19 +1,17 @@
 package com.ohtu.wearable.canvas;
 
-import android.animation.IntArrayEvaluator;
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.content.res.Resources;
 import android.support.wearable.view.WatchViewStub;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.WindowManager;
 
 import java.io.InputStream;
 
 /**
- * Created by sjsaarin on 20.3.2015.
+ * Wrapper class to wrap calls from JNI (duktape) to CanvasElement
+ *
  */
 public class DuktapeWrapper {
     static {
@@ -27,6 +25,11 @@ public class DuktapeWrapper {
 
     public native void runScript(String canvas, String script);
 
+    /**
+     * Creates new android.canvas sized to fill screen
+     *
+     * @param stub
+     */
     public DuktapeWrapper(WatchViewStub stub){
         this.ctx = stub.getContext();
         this.stub = stub;
@@ -51,7 +54,7 @@ public class DuktapeWrapper {
     public boolean execJS(String script){
          try {
             AssetManager am = ctx.getAssets();
-            InputStream is = am.open("canvas.js");
+            InputStream is = am.open("canvas_script/canvas.js");
 
             byte[] b = new byte[is.available()];
             is.read(b);
@@ -68,7 +71,17 @@ public class DuktapeWrapper {
         return true;
     }
 
-    public static String drawCanvas(String fillStyle, String strx, String stry, String strwidth, String strheight){
+    /**
+     * Calls canvasElement.fillRect() function, call this from JNI
+     *
+     * @param fillStyle
+     * @param strx
+     * @param stry
+     * @param strwidth
+     * @param strheight
+     * @return
+     */
+    public static String fillRect(String fillStyle, String strx, String stry, String strwidth, String strheight){
 
         Log.d("Draw", "drawCanvas " + fillStyle + " " + strx + " " + stry + " " + strwidth + " " + strheight);
 
@@ -81,6 +94,25 @@ public class DuktapeWrapper {
         canvasElement.fillStyle=fillStyle;
         canvasElement.fillRect(x, y, width, height);
 
-        return "canvas drawn";
+        return "rectangle drawn";
+    }
+
+    /**
+     * Calls canvasElement.lineTo() function, call this from JNI
+     *
+     * @param fillStyle
+     * @param strx
+     * @param stry
+     * @return
+     */
+    public static String lineTo(String fillStyle, String strx, String stry){
+
+        int x = Integer.parseInt(strx);
+        int y = Integer.parseInt(stry);
+
+        canvasElement.fillStyle=fillStyle;
+        canvasElement.lineTo(x, y);
+
+        return "line drawn";
     }
 }
