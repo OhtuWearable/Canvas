@@ -36,7 +36,7 @@ public class CanvasElement extends Activity {
         paint = new Paint();
         fillStyle = "rgb(0,0,0)";
         parseColors(fillStyle);
-        
+
         lastX = 0;
         lastY = 0;
 
