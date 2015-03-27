@@ -3,7 +3,7 @@
 #include <android/log.h>
 #include "duktape.h"
 
-duk_ret_t jni_draw_rect(duk_context *ctx){
+duk_ret_t jni_fill_rect(duk_context *ctx){
 
     //get parameters frim DukTape heape
     const char *fillstyle = duk_require_string(ctx, 0);

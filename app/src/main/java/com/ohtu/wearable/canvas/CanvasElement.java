@@ -34,12 +34,16 @@ public class CanvasElement extends Activity {
     public CanvasElement(int width, int height, WatchViewStub stub){
         this.stub = stub;
         paint = new Paint();
-        lastX = 0;
-        lastY = 0;
         fillStyle = "rgb(0,0,0)";
         parseColors(fillStyle);
+        
+        lastX = 0;
+        lastY = 0;
+
         bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmap);
+        canvas.drawColor(0xffffffff);
+
     }
 
     /**
@@ -64,7 +68,7 @@ public class CanvasElement extends Activity {
      * @param y
      */
     public void lineTo(int x, int y){
-        parseColors(this.fillStyle);
+        paint.setColor(Color.parseColor("#000000"));
         //ToDo: implement line drawing here
 
         canvas.drawLine(lastX, lastY, x, y, paint);

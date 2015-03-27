@@ -43,8 +43,8 @@ JNIEXPORT void JNICALL Java_com_ohtu_wearable_canvas_DuktapeWrapper_runScript
 
     //Push reference to jni_draw_rect function to DukTape heap so it can be called from javascripts
    	duk_push_global_object(ctx);
-   	duk_push_c_function(ctx, jni_draw_rect, 5);
-   	duk_put_prop_string(ctx, -2, "jni_draw_rect");
+   	duk_push_c_function(ctx, jni_fill_rect, 5);
+   	duk_put_prop_string(ctx, -2, "jni_fill_rect");
    	duk_pop(ctx);  /* pop global */
 
     //get canvas script string from jstring given as parameter and evaluate(=run) it with DukTape
