@@ -97,6 +97,14 @@ public class DuktapeWrapper {
         return "rectangle drawn";
     }
 
+    public static String moveTo(String strx, String stry){
+        int x = Integer.parseInt(strx);
+        int y = Integer.parseInt(stry);
+        canvasElement.moveTo(x, y);
+        return "moved to: " + strx + ", " + stry;
+
+    }
+
     /**
      * Calls canvasElement.lineTo() function, call this from JNI
      *
@@ -114,5 +122,23 @@ public class DuktapeWrapper {
         canvasElement.lineTo(x, y);
 
         return "line drawn";
+    }
+
+    /**
+     * Calls canvasElement.getWidth() function
+     *
+     * @return canvas width
+     */
+    public static int getWidth(){
+        return canvasElement.getWidth();
+    }
+
+    /**
+     * Calls canvasElement.getHeight function
+     *
+     * @return canvas height
+     */
+    public static int getHeight(){
+        return canvasElement.getHeight();
     }
 }

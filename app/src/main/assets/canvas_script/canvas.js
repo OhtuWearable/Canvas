@@ -22,7 +22,7 @@ Canvas.prototype.beginPath = function (){
 }
 
 Canvas.prototype.moveTo = function (x, y){
-    //implement this
+    //jni_move_to(x, y);
 }
 
 Canvas.prototype.stroke = function (){
@@ -38,8 +38,10 @@ function Document(){
 };
 
 Document.prototype.getElementById = function(id){
-    //ToDo: replace hardcoded values with real screen width/height from device?
-    return new Canvas(320, 320);
+    //not sure if these work, must be tested
+    width = jni_get_width();
+    height = jni_get_height();
+    return new Canvas(width, height);
 };
 
 var document = new Document();

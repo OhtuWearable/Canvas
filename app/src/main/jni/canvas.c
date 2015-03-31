@@ -69,3 +69,47 @@ duk_ret_t jni_line_to(duk_context *ctx){
 
     return 1;
 }
+
+duk_ret_t jni_get_width(duk_context *ctx){
+     (void) duk_get_global_string(ctx, "JNIEnv");
+     JNIEnv *env = (JNIEnv *)duk_require_pointer(ctx, -1);
+
+     (void) duk_get_global_string(ctx, "JNIObj");
+     jobject *obj = (jobject *)duk_require_pointer(ctx, -1);
+
+     jclass duktape_wrapper_jclass = (*env)->GetObjectClass(env, obj);
+
+     const char *signature = "()I";
+
+     jmethodID perform_getWidth_jmethodID = (*env)->GetStaticMethodID(env, duktape_wrapper_jclass, "getWidth", signature);
+
+     int response = (*env)->CallStaticIntMethod(env, duktape_wrapper_jclass, perform_getWidth_jmethodID);
+     __android_log_write(ANDROID_LOG_DEBUG, "GETWIDTH: ", "called");
+     duk_push_int(ctx, (duk_int_t) response);
+
+     duk_pop(ctx);
+
+     return 1;
+}
+
+duk_ret_t jni_get_height(duk_context *ctx){
+     (void) duk_get_global_string(ctx, "JNIEnv");
+     JNIEnv *env = (JNIEnv *)duk_require_pointer(ctx, -1);
+
+     (void) duk_get_global_string(ctx, "JNIObj");
+     jobject *obj = (jobject *)duk_require_pointer(ctx, -1);
+
+     jclass duktape_wrapper_jclass = (*env)->GetObjectClass(env, obj);
+
+     const char *signature = "()I";
+
+     jmethodID perform_getHeight_jmethodID = (*env)->GetStaticMethodID(env, duktape_wrapper_jclass, "getHeight", signature);
+
+     int response = (*env)->CallStaticIntMethod(env, duktape_wrapper_jclass, perform_getHeight_jmethodID);
+     __android_log_write(ANDROID_LOG_DEBUG, "getHeight ", "called");
+     duk_push_int(ctx, (duk_int_t) response);
+
+     duk_pop(ctx);
+
+     return 1;
+}

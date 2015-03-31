@@ -15,3 +15,6 @@ ctx.moveTo(0,0);
 ctx.lineTo(130,140);
 ctx.lineTo(250,0);
 ctx.stroke();
+
+//ctx.fillStyle = "rgb(0,255,0)";
+//ctx.fillRect(120, 120, 120, 60);

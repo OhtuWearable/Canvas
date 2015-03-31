@@ -16,12 +16,13 @@ import android.widget.LinearLayout;
 public class CanvasElement extends Activity {
 
     private Paint paint;
+    private int width;
+    private int height;
     private Canvas canvas;
     private Bitmap bitmap;
     private WatchViewStub stub;
     private float lastX;
     private float lastY;
-
     public String fillStyle;
 
     /**
@@ -32,6 +33,8 @@ public class CanvasElement extends Activity {
      * @param stub
      */
     public CanvasElement(int width, int height, WatchViewStub stub){
+        this.width = width;
+        this.height = height;
         this.stub = stub;
         paint = new Paint();
         fillStyle = "rgb(0,0,0)";
@@ -61,6 +64,11 @@ public class CanvasElement extends Activity {
         ll.setBackgroundDrawable(new BitmapDrawable(bitmap));
     }
 
+    public void moveTo(int x, int y){
+        this.lastX = x;
+        this.lastY = y;
+    }
+
     /**
      * Draws line from last point to point given as parameters
      *
@@ -75,6 +83,24 @@ public class CanvasElement extends Activity {
         lastX = x;
         lastY = y;
         Log.d("Canvas Element", "drawing line from: " + lastX + ", " + lastY +"," + " to: " + x +", " + y);
+    }
+
+    /**
+     * Returns width of the canvas
+     *
+     * @return width
+     */
+    public int getWidth(){
+        return this.width;
+    }
+
+    /**
+     * Returns height of the canvas
+     *
+     * @return width
+     */
+    public int getHeight(){
+        return this.height;
     }
 
     /**
