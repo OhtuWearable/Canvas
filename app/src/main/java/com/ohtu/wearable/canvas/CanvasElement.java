@@ -52,6 +52,9 @@ public class CanvasElement extends Activity {
         canvas = new Canvas(bitmap);
         canvas.drawColor(0xffffffff);
 
+//        LinearLayout ll = (LinearLayout) stub.findViewById(R.id.canvas);
+//        ll.setBackgroundDrawable(new BitmapDrawable(bitmap));
+
     }
 
     /**
@@ -114,6 +117,10 @@ public class CanvasElement extends Activity {
             lastX = point[1];
             lastY = point[2];
         }
+
+        LinearLayout ll = (LinearLayout) stub.findViewById(R.id.canvas);
+        ll.setBackgroundDrawable(new BitmapDrawable(bitmap));
+
     }
 
     /**
