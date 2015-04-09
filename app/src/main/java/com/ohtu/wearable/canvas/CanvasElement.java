@@ -10,6 +10,10 @@ import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * emulates HTML5 canvas functionality on android.canvas
  */
@@ -21,8 +25,10 @@ public class CanvasElement extends Activity {
     private WatchViewStub stub;
     private float lastX;
     private float lastY;
+    private Queue<int []> path;
 
     public String fillStyle;
+    public String strokeStyle;
 
     /**
      * Intializes canvas for drawing, sets last point to (0,0) and color to black rgb(0,0,0)
@@ -62,19 +68,45 @@ public class CanvasElement extends Activity {
     }
 
     /**
+     *
+     *
+     */
+    public void beginPath(){
+        path = new LinkedList<>();
+        lastX = 0;
+        lastY = 0;
+    }
+
+    /**
      * Draws line from last point to point given as parameters
      *
      * @param x
      * @param y
      */
     public void lineTo(int x, int y){
+        //1: draw line
+        int point[] = {1, x, y};
+        path.add(point);
+        /*
         paint.setColor(Color.parseColor("#000000"));
         //ToDo: implement line drawing here
 
         canvas.drawLine(lastX, lastY, x, y, paint);
         lastX = x;
         lastY = y;
-        Log.d("Canvas Element", "drawing line from: " + lastX + ", " + lastY +"," + " to: " + x +", " + y);
+        Log.d("Canvas Element", "drawing line from: " + lastX + ", " + lastY +"," + " to: " + x +", " + y);*/
+    }
+
+    public void stroke(String strokeStyle){
+        paint.setColor(Color.parseColor(strokeStyle));
+        while (!path.isEmpty()){
+            int point[] = path.remove();
+            if (point[0] == 1) {
+                canvas.drawLine(lastX, lastY, point[1], point[2], paint);
+            }
+            lastX = point[1];
+            lastY = point[2];
+        }
     }
 
     /**

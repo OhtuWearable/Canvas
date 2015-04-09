@@ -98,19 +98,27 @@ public class DuktapeWrapper {
     }
 
     /**
+     * Calls canvasElement.beginPath()
+     *
+     * @return
+     */
+    public static String beginPath(){
+        canvasElement.beginPath();
+        return "path started";
+    }
+
+    /**
      * Calls canvasElement.lineTo() function, call this from JNI
      *
-     * @param fillStyle
      * @param strx
      * @param stry
      * @return
      */
-    public static String lineTo(String fillStyle, String strx, String stry){
+    public static String lineTo(String strx, String stry){
 
         int x = Integer.parseInt(strx);
         int y = Integer.parseInt(stry);
 
-        canvasElement.fillStyle=fillStyle;
         canvasElement.lineTo(x, y);
 
         return "line drawn";
