@@ -27,33 +27,35 @@ JNIEXPORT void JNICALL Java_com_ohtu_wearable_canvas_DuktapeWrapper_runScript
    	duk_push_global_object(ctx);
    	duk_push_pointer(ctx, env);
    	duk_put_prop_string(ctx, -2, "JNIEnv");
-   	//duk_pop(ctx);  /* pop global */
+   	duk_pop(ctx);  /* pop global */
 
     //push JNIObj DukTape heap so it can be used on functions
-    //duk_push_global_object(ctx);
+    duk_push_global_object(ctx);
     duk_push_pointer(ctx, thisObj);
     duk_put_prop_string(ctx, -2, "JNIObj");
-    //duk_pop(ctx); /* pop global */
+    duk_pop(ctx); /* pop global */
 
     //Push reference to jni_line_to function to DukTape heap so it can be called from javascripts
-    //duk_push_global_object(ctx);
-    duk_push_c_function(ctx, jni_line_to, 3);
+    duk_push_global_object(ctx);
+    duk_push_c_function(ctx, jni_line_to, 2);
     duk_put_prop_string(ctx, -2, "jni_line_to");
-    //duk_pop(ctx);  /* pop global */
+    duk_pop(ctx);  /* pop global */
 
     //Push reference to jni_draw_rect function to DukTape heap so it can be called from javascripts
-   	//duk_push_global_object(ctx);
+   	duk_push_global_object(ctx);
    	duk_push_c_function(ctx, jni_fill_rect, 5);
    	duk_put_prop_string(ctx, -2, "jni_fill_rect");
-   	//duk_pop(ctx);  /* pop global */
+   	duk_pop(ctx);  /* pop global */
 
-   	//duk_push_global_object(ctx);
-    duk_push_c_function(ctx, jni_get_width, 0);
-    duk_put_prop_string(ctx, -2, "jni_get_width");
+   	//Push reference to jni_draw_rect function to DukTape heap so it can be called from javascripts
+    duk_push_global_object(ctx);
+    duk_push_c_function(ctx, jni_begin_path, 0);
+    duk_put_prop_string(ctx, -2, "jni_begin_path");
+    duk_pop(ctx);  /* pop global */
 
-    duk_push_c_function(ctx, jni_get_height, 0);
-    duk_put_prop_string(ctx, -2, "jni_get_height");
-
+    duk_push_global_object(ctx);
+    duk_push_c_function(ctx, jni_stroke, 1);
+    duk_put_prop_string(ctx, -2, "jni_stroke");
     duk_pop(ctx);  /* pop global */
 
     //get canvas script string from jstring given as parameter and evaluate(=run) it with DukTape

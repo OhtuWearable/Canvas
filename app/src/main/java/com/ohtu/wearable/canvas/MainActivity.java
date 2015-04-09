@@ -18,6 +18,7 @@ public class MainActivity extends Activity {
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
+                //downloadAndRunScript(stub);
                 loadAndRunScript(stub);
             }
         });
@@ -42,4 +43,16 @@ public class MainActivity extends Activity {
         }
 
     }
+
+    /*
+    //doesn't work on watch, no direct internet connection
+    private void downloadAndRunScript(WatchViewStub stub){
+
+        DuktapeWrapper wrapper = new DuktapeWrapper(stub);
+        DownloadActivity dl = new DownloadActivity();
+        dl.setWrapper(wrapper);
+        dl.execute("https://raw.githubusercontent.com/OhtuWearable/Canvas/master/app/src/main/assets/script.js");
+
+    }
+    */
 }

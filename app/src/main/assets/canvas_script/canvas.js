@@ -2,10 +2,9 @@
 * Implementation of HTML5 canvas (only fillRect() function for now)
 */
 
-function Canvas(width, height) {
-    this.width = width;
-    this.height = height;
+function Canvas() {
     this.fillStyle = "#FFFFFF";
+    this.strokeStyle = "#FFFFFF";
 }
 
 Canvas.prototype.getContext = function(ctx){
@@ -18,30 +17,31 @@ Canvas.prototype.fillRect  = function (x, y, width, height){
 };
 
 Canvas.prototype.beginPath = function (){
-    //implement this
+    jni_begin_path();
+    return "path started";
 }
 
 Canvas.prototype.moveTo = function (x, y){
-    //jni_move_to(x, y);
+    //implement this
+    return "moved";
 }
 
 Canvas.prototype.stroke = function (){
-    //implement this
+    jni_stroke(strokeStyle);
+    return "path drawn";
 }
 
 Canvas.prototype.lineTo = function (x,y){
-    jni_line_to(this.fillStyle, x.toString(), y.toString());
-    return "line drawn";
+    jni_line_to(x.toString(), y.toString());
+    return "line added";
 };
 
 function Document(){
 };
 
 Document.prototype.getElementById = function(id){
-    //not sure if these work, must be tested
-    width = jni_get_width();
-    height = jni_get_height();
-    return new Canvas(width, height);
+    //ToDo: replace hardcoded values with real screen width/height from device?
+    return new Canvas();
 };
 
 var document = new Document();

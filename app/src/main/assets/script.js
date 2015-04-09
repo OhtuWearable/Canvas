@@ -11,10 +11,8 @@ ctx.fillStyle = "rgb(100,2,3)";
 ctx.fillRect(110, 110, 30, 100);
 
 ctx.beginPath();
-ctx.moveTo(0,0);
+//ctx.moveTo(0,0);
 ctx.lineTo(130,140);
+//ctx.strokeStyle="blue";
 ctx.lineTo(250,0);
-ctx.stroke();
-
-//ctx.fillStyle = "rgb(0,255,0)";
-//ctx.fillRect(120, 120, 120, 60);
+//ctx.stroke();

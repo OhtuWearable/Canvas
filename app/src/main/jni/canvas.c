@@ -43,9 +43,8 @@ duk_ret_t jni_fill_rect(duk_context *ctx){
 duk_ret_t jni_line_to(duk_context *ctx){
 
     //String fillStyle, int x, int y
-    const char *fillstyle = duk_require_string(ctx, 0);
-    const char *x = duk_require_string(ctx, 1);
-    const char *y = duk_require_string(ctx, 2);
+    const char *x = duk_require_string(ctx, 0);
+    const char *y = duk_require_string(ctx, 1);
 
     (void) duk_get_global_string(ctx, "JNIEnv");
     JNIEnv *env = (JNIEnv *)duk_require_pointer(ctx, -1);
@@ -55,15 +54,62 @@ duk_ret_t jni_line_to(duk_context *ctx){
 
     jclass duktape_wrapper_jclass = (*env)->GetObjectClass(env, obj);
 
-    const char *signature = "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;";
+    const char *signature = "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;";
 
     jmethodID perform_lineTo_jmethodID = (*env)->GetStaticMethodID(env, duktape_wrapper_jclass, "lineTo", signature);
 
-    jstring jfillstyle = (*env)->NewStringUTF(env, fillstyle);
     jstring jx = (*env)->NewStringUTF(env, x);
     jstring jy = (*env)->NewStringUTF(env, y);
 
-    jstring response_jstring = (jstring) (*env)->CallStaticObjectMethod(env, duktape_wrapper_jclass, perform_lineTo_jmethodID, jfillstyle, jx, jy);
+    jstring response_jstring = (jstring) (*env)->CallStaticObjectMethod(env, duktape_wrapper_jclass, perform_lineTo_jmethodID, jx, jy);
+
+    duk_pop(ctx);
+
+    return 1;
+}
+
+duk_ret_t jni_begin_path(duk_context *ctx){
+
+
+    (void) duk_get_global_string(ctx, "JNIEnv");
+    JNIEnv *env = (JNIEnv *)duk_require_pointer(ctx, -1);
+
+    (void) duk_get_global_string(ctx, "JNIObj");
+    jobject *obj = (jobject *)duk_require_pointer(ctx, -1);
+
+    jclass duktape_wrapper_jclass = (*env)->GetObjectClass(env, obj);
+
+    const char *signature = "()Ljava/lang/String;";
+
+    jmethodID perform_beginPath_jmethodID = (*env)->GetStaticMethodID(env, duktape_wrapper_jclass, "beginPath", signature);
+
+    jstring response_jstring = (jstring) (*env)->CallStaticObjectMethod(env, duktape_wrapper_jclass, perform_beginPath_jmethodID);
+
+    duk_pop(ctx);
+
+    return 1;
+}
+
+duk_ret_t jni_stroke(duk_context *ctx){
+
+    //String strokeStyle
+    const char *strokeStyle = duk_require_string(ctx, 0);
+
+    (void) duk_get_global_string(ctx, "JNIEnv");
+    JNIEnv *env = (JNIEnv *)duk_require_pointer(ctx, -1);
+
+    (void) duk_get_global_string(ctx, "JNIObj");
+    jobject *obj = (jobject *)duk_require_pointer(ctx, -1);
+
+    jclass duktape_wrapper_jclass = (*env)->GetObjectClass(env, obj);
+
+    const char *signature = "(Ljava/lang/String;)Ljava/lang/String;";
+
+    jmethodID perform_stroke_jmethodID = (*env)->GetStaticMethodID(env, duktape_wrapper_jclass, "stroke", signature);
+
+    jstring strokestyle = (*env)->NewStringUTF(env, strokeStyle);
+
+    jstring response_jstring = (jstring) (*env)->CallStaticObjectMethod(env, duktape_wrapper_jclass, perform_stroke_jmethodID, strokestyle);
 
     duk_pop(ctx);
 
