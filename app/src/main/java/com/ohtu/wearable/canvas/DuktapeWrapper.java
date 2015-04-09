@@ -100,7 +100,7 @@ public class DuktapeWrapper {
     public static String moveTo(String strx, String stry){
         int x = Integer.parseInt(strx);
         int y = Integer.parseInt(stry);
-        canvasElement.moveTo(x, y);
+        //canvasElement.moveTo(x, y);
         return "moved to: " + strx + ", " + stry;
 
     }
@@ -132,13 +132,21 @@ public class DuktapeWrapper {
         return "line drawn";
     }
 
+    public static String stroke(String strokeStyle) {
+
+        canvasElement.stroke(strokeStyle);
+
+        return "stroke done";
+    }
+
     /**
      * Calls canvasElement.getWidth() function
      *
      * @return canvas width
      */
     public static int getWidth(){
-        return canvasElement.getWidth();
+        //return canvasElement.getWidth();
+        return 1;
     }
 
     /**
@@ -147,6 +155,7 @@ public class DuktapeWrapper {
      * @return canvas height
      */
     public static int getHeight(){
-        return canvasElement.getHeight();
+        //return canvasElement.getHeight();
+        return 1;
     }
 }

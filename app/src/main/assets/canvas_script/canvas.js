@@ -3,8 +3,8 @@
 */
 
 function Canvas() {
-    this.fillStyle = "#FFFFFF";
-    this.strokeStyle = "#FFFFFF";
+    this.fillStyle = "#000000";
+    this.strokeStyle = "#000000";
 }
 
 Canvas.prototype.getContext = function(ctx){
@@ -27,7 +27,7 @@ Canvas.prototype.moveTo = function (x, y){
 }
 
 Canvas.prototype.stroke = function (){
-    jni_stroke(strokeStyle);
+    jni_stroke(this.strokeStyle);
     return "path drawn";
 }
 

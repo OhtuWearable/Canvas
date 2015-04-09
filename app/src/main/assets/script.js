@@ -13,6 +13,6 @@ ctx.fillRect(110, 110, 30, 100);
 ctx.beginPath();
 //ctx.moveTo(0,0);
 ctx.lineTo(130,140);
-//ctx.strokeStyle="blue";
+ctx.strokeStyle="blue";
 ctx.lineTo(250,0);
-//ctx.stroke();
+ctx.stroke();

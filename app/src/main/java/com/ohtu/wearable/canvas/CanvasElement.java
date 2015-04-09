@@ -11,7 +11,9 @@ import android.util.Log;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -115,8 +117,12 @@ public class CanvasElement extends Activity {
      * @param colors colors as a string formatted 'rgb(rrr,ggg,bbb)' or '#rrggbb'
      */
     private void parseColors(String colors){
+        List<String> colorStrings = new ArrayList<>(Arrays.asList("red", "blue", "green", "black", "white", "gray", "cyan", "magenta", "yellow", "lightgray", "darkgray", "grey", "lightgrey", "darkgrey", "aqua", "fuschia", "lime", "maroon", "navy", "olive", "purple", "silver", "teal"));
+
+
+
         String pattern = "#([A-F0-9]||[a-f0-9]){6}";
-        if (colors.matches(pattern)){
+        if (colors.matches(pattern) || colorStrings.contains(colors)){
             paint.setColor(Color.parseColor(colors));
             return;
         }
