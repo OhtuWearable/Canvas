@@ -22,7 +22,7 @@ Canvas.prototype.beginPath = function (){
 }
 
 Canvas.prototype.moveTo = function (x, y){
-    //implement this
+    jni_move_to(x.toString(), y.toString());
     return "moved";
 }
 

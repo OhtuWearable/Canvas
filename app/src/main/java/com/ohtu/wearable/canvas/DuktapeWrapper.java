@@ -100,7 +100,7 @@ public class DuktapeWrapper {
     public static String moveTo(String strx, String stry){
         int x = Integer.parseInt(strx);
         int y = Integer.parseInt(stry);
-        //canvasElement.moveTo(x, y);
+        canvasElement.moveTo(x, y);
         return "moved to: " + strx + ", " + stry;
 
     }

@@ -99,6 +99,11 @@ public class CanvasElement extends Activity {
         Log.d("Canvas Element", "drawing line from: " + lastX + ", " + lastY +"," + " to: " + x +", " + y);*/
     }
 
+    public void moveTo(int x, int y) {
+        int point[] = {0, x, y};
+        path.add(point);
+    }
+
     public void stroke(String strokeStyle){
         paint.setColor(Color.parseColor(strokeStyle));
         while (!path.isEmpty()){

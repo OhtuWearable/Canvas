@@ -68,6 +68,34 @@ duk_ret_t jni_line_to(duk_context *ctx){
     return 1;
 }
 
+duk_ret_t jni_move_to(duk_context *ctx){
+
+    //String fillStyle, int x, int y
+    const char *x = duk_require_string(ctx, 0);
+    const char *y = duk_require_string(ctx, 1);
+
+    (void) duk_get_global_string(ctx, "JNIEnv");
+    JNIEnv *env = (JNIEnv *)duk_require_pointer(ctx, -1);
+
+    (void) duk_get_global_string(ctx, "JNIObj");
+    jobject *obj = (jobject *)duk_require_pointer(ctx, -1);
+
+    jclass duktape_wrapper_jclass = (*env)->GetObjectClass(env, obj);
+
+    const char *signature = "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;";
+
+    jmethodID perform_moveTo_jmethodID = (*env)->GetStaticMethodID(env, duktape_wrapper_jclass, "moveTo", signature);
+
+    jstring jx = (*env)->NewStringUTF(env, x);
+    jstring jy = (*env)->NewStringUTF(env, y);
+
+    jstring response_jstring = (jstring) (*env)->CallStaticObjectMethod(env, duktape_wrapper_jclass, perform_moveTo_jmethodID, jx, jy);
+
+    duk_pop(ctx);
+
+    return 1;
+}
+
 duk_ret_t jni_begin_path(duk_context *ctx){
 
 
