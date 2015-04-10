@@ -40,6 +40,48 @@ duk_ret_t jni_fill_rect(duk_context *ctx){
     return 1;
 }
 
+duk_ret_t jni_clear_rect(duk_context *ctx){
+
+    //get parameters frim DukTape heape
+    const char *x = duk_require_string(ctx, 0);
+    const char *y = duk_require_string(ctx, 1);
+    const char *width = duk_require_string(ctx, 2);
+    const char *height = duk_require_string(ctx, 3);
+
+    //get pointers to JNIEnv and JNIObj frum DukTape heap
+    (void) duk_get_global_string(ctx, "JNIEnv");
+    JNIEnv *env = (JNIEnv *)duk_require_pointer(ctx, -1);
+    (void) duk_get_global_string(ctx, "JNIObj");
+    jobject *obj = (jobject *)duk_require_pointer(ctx, -1);
+
+    jclass duktape_wrapper_jclass = (*env)->GetObjectClass(env, obj);
+
+    //paramaters (string fillstyle, string x, string y, string width, string height) and return parameter (string)
+    const char *signature = "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;";
+    //get DuktapeWrapper.fillRect methodID
+    jmethodID perform_clearRect_jmethodID = (*env)->GetStaticMethodID(env, duktape_wrapper_jclass, "clearRect", signature);
+
+    //jstrings from parameter strings
+    jstring jx = (*env)->NewStringUTF(env, x);
+    jstring jy = (*env)->NewStringUTF(env, y);
+    jstring jwidth = (*env)->NewStringUTF(env, width);
+    jstring jheight = (*env)->NewStringUTF(env, height);
+
+    //call DuktapeWrapper.fillRect method with parameters and save response to response_jstring
+    jstring response_jstring = (jstring) (*env)->CallStaticObjectMethod(env, duktape_wrapper_jclass, perform_clearRect_jmethodID, jx, jy, jwidth, jheight);
+
+    (*env)->DeleteLocalRef(env, jx);
+    (*env)->DeleteLocalRef(env, jy);
+    (*env)->DeleteLocalRef(env, jwidth);
+    (*env)->DeleteLocalRef(env, jheight);
+    (*env)->DeleteLocalRef(env, response_jstring);
+    (*env)->DeleteLocalRef(env, duktape_wrapper_jclass);
+
+    duk_pop(ctx);
+
+    return 1;
+}
+
 duk_ret_t jni_line_to(duk_context *ctx){
 
     //String fillStyle, int x, int y
@@ -66,6 +108,7 @@ duk_ret_t jni_line_to(duk_context *ctx){
     (*env)->DeleteLocalRef(env, jx);
     (*env)->DeleteLocalRef(env, jy);
     (*env)->DeleteLocalRef(env, response_jstring);
+    (*env)->DeleteLocalRef(env, duktape_wrapper_jclass);
 
     duk_pop(ctx);
 
@@ -98,6 +141,7 @@ duk_ret_t jni_move_to(duk_context *ctx){
     (*env)->DeleteLocalRef(env, jx);
     (*env)->DeleteLocalRef(env, jy);
     (*env)->DeleteLocalRef(env, response_jstring);
+    (*env)->DeleteLocalRef(env, duktape_wrapper_jclass);
 
     duk_pop(ctx);
 
@@ -120,7 +164,9 @@ duk_ret_t jni_begin_path(duk_context *ctx){
     jmethodID perform_beginPath_jmethodID = (*env)->GetStaticMethodID(env, duktape_wrapper_jclass, "beginPath", signature);
 
     jstring response_jstring = (jstring) (*env)->CallStaticObjectMethod(env, duktape_wrapper_jclass, perform_beginPath_jmethodID);
+
     (*env)->DeleteLocalRef(env, response_jstring);
+    (*env)->DeleteLocalRef(env, duktape_wrapper_jclass);
 
     duk_pop(ctx);
 
@@ -149,6 +195,7 @@ duk_ret_t jni_stroke(duk_context *ctx){
     jstring response_jstring = (jstring) (*env)->CallStaticObjectMethod(env, duktape_wrapper_jclass, perform_stroke_jmethodID, strokestyle);
     (*env)->DeleteLocalRef(env, response_jstring);
     (*env)->DeleteLocalRef(env, strokestyle);
+    (*env)->DeleteLocalRef(env, duktape_wrapper_jclass);
 
     duk_pop(ctx);
 

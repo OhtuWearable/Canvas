@@ -16,13 +16,20 @@ Canvas.prototype.fillRect  = function (x, y, width, height){
     return "rectangle drawn";
 };
 
+Canvas.prototype.clearRect  = function (x, y, width, height){
+    jni_clear_rect(x.toString(), y.toString(), width.toString(), height.toString());
+    return "rectangle cleared";
+};
+
 Canvas.prototype.beginPath = function (){
     jni_begin_path();
     return "path started";
 }
 
 Canvas.prototype.moveTo = function (x, y){
-    jni_move_to(x.toString(), y.toString());
+    var xInt = parseInt(x);
+    var yInt = parseInt(y);
+    jni_move_to(xInt.toString(), yInt.toString());
     return "moved";
 }
 
@@ -32,7 +39,9 @@ Canvas.prototype.stroke = function (){
 }
 
 Canvas.prototype.lineTo = function (x,y){
-    jni_line_to(x.toString(), y.toString());
+    var xInt = parseInt(x);
+    var yInt = parseInt(y);
+    jni_line_to(xInt.toString(), yInt.toString());
     return "line added";
 };
 

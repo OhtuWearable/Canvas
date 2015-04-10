@@ -73,6 +73,21 @@ public class CanvasElement extends Activity {
     }
 
     /**
+     * draws "clear" (=rectangle filled with background color) rectangle
+     *
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     */
+    public void clearRect(int x, int y, int width, int height){
+        paint.setColor(Color.argb(255, 255, 255, 255));
+        canvas.drawRect(x, y, x+width, y+height, paint);
+        LinearLayout ll = (LinearLayout) stub.findViewById(R.id.canvas);
+        ll.setBackgroundDrawable(new BitmapDrawable(bitmap));
+    }
+
+    /**
      *
      *
      */

@@ -97,6 +97,20 @@ public class DuktapeWrapper {
         return "rectangle drawn";
     }
 
+    public static String clearRect(String strx, String stry, String strwidth, String strheight){
+
+        Log.d("Clear", "clearRect " + strx + " " + stry + " " + strwidth + " " + strheight);
+
+        int x = Integer.parseInt(strx);
+        int y = Integer.parseInt(stry);
+        int width = Integer.parseInt(strwidth);
+        int height = Integer.parseInt(strheight);
+
+        canvasElement.clearRect(x, y, width, height);
+
+        return "rectangle drawn";
+    }
+
     public static String moveTo(String strx, String stry){
         int x = Integer.parseInt(strx);
         int y = Integer.parseInt(stry);

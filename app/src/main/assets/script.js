@@ -46,8 +46,16 @@ function looper() {
     ctx = canvas.getContext("2d");
 
     for (var i = 0; i<32; i++) {
-        plotData(parseInt(arrayX[i]), parseInt(arrayY[i]), parseInt(arrayZ[i]));
+        plotData(arrayX[i], arrayY[i], arrayZ[i]);
         //plotData(ctx, 160, 160, 160);
+    }
+    lapse = 0;
+    prevX = 0;
+    prevY = 0;
+    prevZ = 0;
+    ctx.clearRect(0,0,320,320);
+    for (var i = 0; i<32; i++) {
+        plotData(arrayX[i], arrayX[i], arrayX[i]);
     }
 }
 

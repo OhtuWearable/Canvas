@@ -53,6 +53,11 @@ JNIEXPORT void JNICALL Java_com_ohtu_wearable_canvas_DuktapeWrapper_runScript
    	duk_put_prop_string(ctx, -2, "jni_fill_rect");
    	duk_pop(ctx);  /* pop global */
 
+   	duk_push_global_object(ctx);
+    duk_push_c_function(ctx, jni_clear_rect, 4);
+    duk_put_prop_string(ctx, -2, "jni_clear_rect");
+    duk_pop(ctx);
+
    	//Push reference to jni_draw_rect function to DukTape heap so it can be called from javascripts
     duk_push_global_object(ctx);
     duk_push_c_function(ctx, jni_begin_path, 0);
