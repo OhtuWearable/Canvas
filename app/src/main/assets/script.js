@@ -53,10 +53,16 @@ function looper() {
     prevX = 0;
     prevY = 0;
     prevZ = 0;
-    ctx.clearRect(0,0,320,320);
-    for (var i = 0; i<32; i++) {
-        plotData(arrayX[i], arrayX[i], arrayX[i]);
-    }
+    ctx.clearRect(60,60,200,200);
+    //for (var i = 0; i<32; i++) {
+    //    plotData(arrayX[i], arrayX[i], arrayX[i]);
+    //}
 }
 
-looper();
+var counter=0;
+var xhr2=new XMLHttpRequest();
+xhr2.onreadystatechange = function(){looper();};
+xhr2.onprogress=function(){counter++;};
+xhr2.open("GET","http://127.0.0.1:8080/feeds/1", true);
+xhr2.setRequestHeader("Content-Type", "application/json");
+xhr2.send("[78,89,45]");

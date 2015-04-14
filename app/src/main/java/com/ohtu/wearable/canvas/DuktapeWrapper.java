@@ -2,12 +2,14 @@ package com.ohtu.wearable.canvas;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.os.AsyncTask;
 import android.support.wearable.view.WatchViewStub;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
 
 import java.io.InputStream;
+import java.util.HashMap;
 
 /**
  * Wrapper class to wrap calls from JNI (duktape) to CanvasElement
@@ -22,8 +24,15 @@ public class DuktapeWrapper {
     private String canvasScript;
     private static WatchViewStub stub;
     private static CanvasElement canvasElement;
+    private static DuktapeWrapper wrapper;
 
     public native void runScript(String canvas, String script);
+
+    private static HashMap<String, AsyncTask> requests=new HashMap<>();
+
+
+    public native String runScriptOnContext(long contextPointer, String script);
+
 
     /**
      * Creates new android.canvas sized to fill screen
@@ -42,6 +51,7 @@ public class DuktapeWrapper {
         Log.d("Canvas", "width: " + canvasWidth + " - height: " + canvasHeight);
 
         this.canvasElement = new CanvasElement(canvasWidth, canvasHeight, stub);
+        this.wrapper = this;
     }
 
     /**
@@ -69,6 +79,84 @@ public class DuktapeWrapper {
         Log.d("wrapper", script);
         runScript(canvasScript, script);
         return true;
+    }
+
+    public static String performJavaHttpAbort(String reqID){
+        if(DuktapeWrapper.requests.get(reqID)!=null){
+            if(!DuktapeWrapper.requests.get(reqID).isCancelled()){
+                DuktapeWrapper.requests.get(reqID).cancel(true);
+            }
+        }
+        return "";
+    }
+
+    public static String performJavaHttpRequest(String method,
+                                                String url,
+                                                String data,
+                                                String reqid,
+                                                long contextPointer,
+                                                String headers,
+                                                String username,
+                                                String password,
+                                                boolean async) {
+        Log.d("DUKTAPE", "NEW REQUEST: "+reqid+" "+method+" "+data);
+        switch (method) {
+            case "GET":
+                DuktapeWrapper.newRequest(url, method, data, contextPointer, reqid, headers, username, password, async);
+                break;
+            case "SLEEP":
+                DuktapeWrapper.newRequest(url, method, data, contextPointer, reqid, headers, username, password, async);
+                break;
+            case "POST":
+                DuktapeWrapper.newRequest(url, method, data, contextPointer, reqid, headers, username, password, async);
+                break;
+            case "PUT":
+                DuktapeWrapper.newRequest(url, method, data, contextPointer, reqid, headers, username, password, async);
+                break;
+            case "DELETE":
+                DuktapeWrapper.newRequest(url, method, data, contextPointer, reqid, headers, username, password, async);
+                break;
+            default:
+                break;
+        }
+        return "";
+    }
+
+    private static HashMap<String, String> headersToMap(String headers){
+        HashMap<String, String> map=new HashMap<>();
+        if(headers.contains("#")){
+            String[] splitted=headers.split("#");
+            for(int i=0; i<splitted.length; i++){
+                if(splitted[i].contains(":")) {
+                    String[] header = splitted[i].split(":");
+                    map.put(header[0], header[1]);
+                }
+            }
+        }
+        return map;
+    }
+
+    public static void newRequest(String url,
+                                  String method,
+                                  String data,
+                                  long contextPointer,
+                                  String reqID,
+                                  String headers,
+                                  String username,
+                                  String password,
+                                  boolean async) {
+        XMLHTTPRequest req = new XMLHTTPRequest();
+        req.setWrapper(wrapper);
+        req.setMethod(method);
+        req.setUrl(url);
+        req.setHeaders(DuktapeWrapper.headersToMap(headers));
+        req.setUsername(username);
+        req.setPassword(password);
+        req.setContextPointer(contextPointer);
+        req.setReqID(reqID);
+        req.setData(data);
+        DuktapeWrapper.requests.put(reqID, req);
+        req.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
     }
 
     /**
