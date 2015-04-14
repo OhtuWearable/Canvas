@@ -29,6 +29,7 @@ function getData() {
         if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
             //alert("Connected!");
             plotData(Duktape.dec('jx',xmlhttp.responseText));
+            xmlhttp.send();
         } else {
             //alert("Not connected!");
         }
@@ -79,15 +80,4 @@ function plotData(data) {
     lapse = newLapse;
 }
 
-var xmlhttp = new XMLHttpRequest();
-
-    xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-            //alert("Connected!");
-            return xmlhttp.responseText;
-        } else {
-            //alert("Not connected!");
-        }
-    };
-    xmlhttp.open("GET", "http://127.0.0.1:8080/feeds/1", true);
-    xmlhttp.send();
+init();
