@@ -201,7 +201,7 @@ var XMLHttpRequest = function() {
         }else{
             this.readyState=this.DONE;
             this.sendFlag=false;
-            native_abort(reqid);
+            //native_abort(reqid);
         }
     };
 

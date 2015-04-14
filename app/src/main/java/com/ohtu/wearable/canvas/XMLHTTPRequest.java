@@ -57,7 +57,6 @@ public class XMLHTTPRequest extends AsyncTask<String, Void, String> {
     private String password;
     private String responseHeaders;
     private String data;
-    private DuktapeWrapper wrapper;
 
     public void setData(String data) {
         this.data = data;
@@ -83,9 +82,6 @@ public class XMLHTTPRequest extends AsyncTask<String, Void, String> {
         this.method = method;
     }
 
-    public void setWrapper(DuktapeWrapper wrapper){
-        this.wrapper = wrapper;
-    }
 
     @Override
     protected String doInBackground(String... urls) {
@@ -93,22 +89,17 @@ public class XMLHTTPRequest extends AsyncTask<String, Void, String> {
     }
 
     private String execCallback(String callback){
-        String runRet= wrapper.runScriptOnContext(this.contextPointer, "if(xmlHttpRequests[\"" + reqID + "\"]."+callback+"!=null){xmlHttpRequests[\"" + reqID + "\"]."+callback+"();}");
+        String runRet= MainActivity.wrapper.runScriptOnContext(this.contextPointer, "if(xmlHttpRequests[\"" + reqID + "\"]."+callback+"!=null){xmlHttpRequests[\"" + reqID + "\"]."+callback+"();}");
         Log.d("EXEC", runRet);
         return runRet;
     }
 
     @Override
-    protected void onProgressUpdate(Void ... str){
-        this.execCallback("onprogress");
-    }
-
-    @Override
     protected void onPostExecute(String result) {
-        wrapper.runScriptOnContext(this.contextPointer, "xmlHttpRequests[\"" + reqID + "\"].readyState=4;");
-        wrapper.runScriptOnContext(this.contextPointer, "xmlHttpRequests[\"" + reqID + "\"].status=" + this.status + ";");
-        wrapper.runScriptOnContext(this.contextPointer, "xmlHttpRequests[\"" + reqID + "\"].responseText=\'" + result + "\';");
-        wrapper.runScriptOnContext(this.contextPointer, "xmlHttpRequests[\"" + reqID + "\"].responseHeaders=Duktape.dec(\'jx\', \'" + this.responseHeaders + "\');");
+        MainActivity.wrapper.runScriptOnContext(this.contextPointer, "xmlHttpRequests[\"" + reqID + "\"].readyState=4;");
+        MainActivity.wrapper.runScriptOnContext(this.contextPointer, "xmlHttpRequests[\"" + reqID + "\"].status=" + this.status + ";");
+        MainActivity.wrapper.runScriptOnContext(this.contextPointer, "xmlHttpRequests[\"" + reqID + "\"].responseText=\'" + result + "\';");
+        MainActivity.wrapper.runScriptOnContext(this.contextPointer, "xmlHttpRequests[\"" + reqID + "\"].responseHeaders=Duktape.dec(\'jx\', \'" + this.responseHeaders + "\');");
         Log.d("RESPONSE", this.responseHeaders);
         Log.d("XMLHTTPREQUEST-RESULT", reqID + ": " + this.execCallback("onreadystatechange"));
     }
@@ -140,7 +131,7 @@ public class XMLHTTPRequest extends AsyncTask<String, Void, String> {
     @Override
     protected void onCancelled() {
         Log.d("ABORT", reqID + " ABORTED");
-        this.execCallback("onabort");
+        //this.execCallback("onabort");
     }
 
     public void setContextPointer(long contextPointer) {

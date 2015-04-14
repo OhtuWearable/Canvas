@@ -18,7 +18,7 @@ duk_ret_t jni_fill_rect(duk_context *ctx){
     (void) duk_get_global_string(ctx, "JNIObj");
     jobject *obj = (jobject *)duk_require_pointer(ctx, -1);
 
-    jclass duktape_wrapper_jclass = (*env)->GetObjectClass(env, obj);
+    jclass duktape_wrapper_jclass = (*env)->FindClass(env, "com/ohtu/wearable/canvas/DuktapeWrapper");
 
     //paramaters (string fillstyle, string x, string y, string width, string height) and return parameter (string)
     const char *signature = "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;";
@@ -54,7 +54,8 @@ duk_ret_t jni_clear_rect(duk_context *ctx){
     (void) duk_get_global_string(ctx, "JNIObj");
     jobject *obj = (jobject *)duk_require_pointer(ctx, -1);
 
-    jclass duktape_wrapper_jclass = (*env)->GetObjectClass(env, obj);
+    //jclass duktape_wrapper_jclass = (*env)->GetObjectClass(env, obj);
+    jclass duktape_wrapper_jclass = (*env)->FindClass(env, "com/ohtu/wearable/canvas/DuktapeWrapper");
 
     //paramaters (string fillstyle, string x, string y, string width, string height) and return parameter (string)
     const char *signature = "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;";
@@ -94,7 +95,7 @@ duk_ret_t jni_line_to(duk_context *ctx){
     (void) duk_get_global_string(ctx, "JNIObj");
     jobject *obj = (jobject *)duk_require_pointer(ctx, -1);
 
-    jclass duktape_wrapper_jclass = (*env)->GetObjectClass(env, obj);
+    jclass duktape_wrapper_jclass = (*env)->FindClass(env, "com/ohtu/wearable/canvas/DuktapeWrapper");
 
     const char *signature = "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;";
 
@@ -127,7 +128,7 @@ duk_ret_t jni_move_to(duk_context *ctx){
     (void) duk_get_global_string(ctx, "JNIObj");
     jobject *obj = (jobject *)duk_require_pointer(ctx, -1);
 
-    jclass duktape_wrapper_jclass = (*env)->GetObjectClass(env, obj);
+    jclass duktape_wrapper_jclass = (*env)->FindClass(env, "com/ohtu/wearable/canvas/DuktapeWrapper");
 
     const char *signature = "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;";
 
@@ -157,7 +158,7 @@ duk_ret_t jni_begin_path(duk_context *ctx){
     (void) duk_get_global_string(ctx, "JNIObj");
     jobject *obj = (jobject *)duk_require_pointer(ctx, -1);
 
-    jclass duktape_wrapper_jclass = (*env)->GetObjectClass(env, obj);
+    jclass duktape_wrapper_jclass = (*env)->FindClass(env, "com/ohtu/wearable/canvas/DuktapeWrapper");
 
     const char *signature = "()Ljava/lang/String;";
 
@@ -184,7 +185,7 @@ duk_ret_t jni_stroke(duk_context *ctx){
     (void) duk_get_global_string(ctx, "JNIObj");
     jobject *obj = (jobject *)duk_require_pointer(ctx, -1);
 
-    jclass duktape_wrapper_jclass = (*env)->GetObjectClass(env, obj);
+    jclass duktape_wrapper_jclass = (*env)->FindClass(env, "com/ohtu/wearable/canvas/DuktapeWrapper");
 
     const char *signature = "(Ljava/lang/String;)Ljava/lang/String;";
 

@@ -1,14 +1,19 @@
 package com.ohtu.wearable.canvas;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.WindowManager;
 
 import java.io.InputStream;
 
 public class MainActivity extends Activity {
+
+    public static DuktapeWrapper wrapper=new DuktapeWrapper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +31,19 @@ public class MainActivity extends Activity {
 
     //loads script from file and calls duktape wrapper to execute script
     private void loadAndRunScript(WatchViewStub stub){
-        DuktapeWrapper wrapper = new DuktapeWrapper(stub);
+
+        DuktapeWrapper.ctx = stub.getContext();
+        DuktapeWrapper.stub = stub;
+        DisplayMetrics metrics = new DisplayMetrics();
+        WindowManager wm = (WindowManager) stub.getContext().getSystemService(Context.WINDOW_SERVICE);
+        wm.getDefaultDisplay().getMetrics(metrics);
+        int canvasWidth = metrics.widthPixels;
+        int canvasHeight = metrics.heightPixels;
+
+        Log.d("Canvas", "width: " + canvasWidth + " - height: " + canvasHeight);
+
+        DuktapeWrapper.canvasElement = new CanvasElement(canvasWidth, canvasHeight, stub);
+
 
         try {
             AssetManager am = stub.getContext().getAssets();
@@ -35,7 +52,14 @@ public class MainActivity extends Activity {
             byte[] b = new byte[is.available()];
             is.read(b);
             String script = new String(b);
-            wrapper.execJS(script);
+
+            is = am.open("canvas_script/canvas.js");
+
+            b = new byte[is.available()];
+            is.read(b);
+            String canvasScript = new String(b);
+
+            MainActivity.wrapper.execJS(canvasScript, script);
             //Log.d("MA", script);
         } catch (Exception e) {
             Log.e("MA", "Error: can't read file.");

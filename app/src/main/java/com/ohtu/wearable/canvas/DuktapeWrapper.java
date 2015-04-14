@@ -16,69 +16,24 @@ import java.util.HashMap;
  *
  */
 public class DuktapeWrapper {
+
+    public static Context ctx;
+    public static WatchViewStub stub;
+    public static CanvasElement canvasElement;
+
     static {
         System.loadLibrary("jsModule");
     }
 
-    private Context ctx;
-    private String canvasScript;
-    private static WatchViewStub stub;
-    private static CanvasElement canvasElement;
-    private static DuktapeWrapper wrapper;
+    public static HashMap<String, AsyncTask> requests=new HashMap<>();
 
     public native void runScript(String canvas, String script);
 
-    private static HashMap<String, AsyncTask> requests=new HashMap<>();
-
-
     public native String runScriptOnContext(long contextPointer, String script);
 
-
-    /**
-     * Creates new android.canvas sized to fill screen
-     *
-     * @param stub
-     */
-    public DuktapeWrapper(WatchViewStub stub){
-        this.ctx = stub.getContext();
-        this.stub = stub;
-        DisplayMetrics metrics = new DisplayMetrics();
-        WindowManager wm = (WindowManager) stub.getContext().getSystemService(Context.WINDOW_SERVICE);
-        wm.getDefaultDisplay().getMetrics(metrics);
-        int canvasWidth = metrics.widthPixels;
-        int canvasHeight = metrics.heightPixels;
-
-        Log.d("Canvas", "width: " + canvasWidth + " - height: " + canvasHeight);
-
-        this.canvasElement = new CanvasElement(canvasWidth, canvasHeight, stub);
-        this.wrapper = this;
-    }
-
-    /**
-     * Executes JS given as parameter if loading of canvas.js is successful and returns true,
-     * otherwise returns false
-     *
-     * @param script, javascript to execute
-     * @return true if success
-     */
-    public boolean execJS(String script){
-         try {
-            AssetManager am = ctx.getAssets();
-            InputStream is = am.open("canvas_script/canvas.js");
-
-            byte[] b = new byte[is.available()];
-            is.read(b);
-            canvasScript = new String(b);
-
-        } catch (Exception e) {
-            canvasScript = "";
-            Log.e("DW","Error: can't read file.");
-            return false;
-        }
-        Log.d("wrapper", canvasScript);
-        Log.d("wrapper", script);
-        runScript(canvasScript, script);
-        return true;
+    public void execJS(String lib, String script){
+        runScript(lib, script);
+        Log.d("SCRIPT", script);
     }
 
     public static String performJavaHttpAbort(String reqID){
@@ -146,7 +101,6 @@ public class DuktapeWrapper {
                                   String password,
                                   boolean async) {
         XMLHTTPRequest req = new XMLHTTPRequest();
-        req.setWrapper(wrapper);
         req.setMethod(method);
         req.setUrl(url);
         req.setHeaders(DuktapeWrapper.headersToMap(headers));
@@ -159,16 +113,6 @@ public class DuktapeWrapper {
         req.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
     }
 
-    /**
-     * Calls canvasElement.fillRect() function, call this from JNI
-     *
-     * @param fillStyle
-     * @param strx
-     * @param stry
-     * @param strwidth
-     * @param strheight
-     * @return
-     */
     public static String fillRect(String fillStyle, String strx, String stry, String strwidth, String strheight){
 
         Log.d("Draw", "drawCanvas " + fillStyle + " " + strx + " " + stry + " " + strwidth + " " + strheight);
@@ -260,4 +204,6 @@ public class DuktapeWrapper {
         //return canvasElement.getHeight();
         return 1;
     }
+
+
 }

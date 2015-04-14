@@ -21,7 +21,7 @@ jstring Java_com_ohtu_wearable_canvas_DuktapeWrapper_runScriptOnContext
     //Cast long to duk_context-pointer
     duk_context *ctx = (duk_context*)context_pointer;
 
-    char peval[255];
+    char peval[2555];
     const char *real_script = (*env)->GetStringUTFChars(env, script, 0);
     duk_peval_string(ctx, real_script);
     char ret[2550];
@@ -97,7 +97,7 @@ JNIEXPORT void JNICALL Java_com_ohtu_wearable_canvas_DuktapeWrapper_runScript
         duk_pop(ctx); /* pop global */
 
         //I need access to the native_abort()
-        duk_push_global_object(ctx);
+        /*duk_push_global_object(ctx);
         duk_push_c_function(ctx, native_abort, 1);
         duk_put_prop_string(ctx, -2, "native_abort");
         duk_pop(ctx); /* pop global */
