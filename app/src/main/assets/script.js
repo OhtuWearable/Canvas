@@ -39,16 +39,17 @@ function getData() {
 }
 
 function plotData(data) {
-    console.log(data);
+    //console.log(data);
 
     arrayX.push(x);
     arrayY.push(y);
     arrayZ.push(z);
+    /*
     if (lapse==320) {
         console.log(arrayX);
         console.log(arrayY);
         console.log(arrayZ);
-    }
+    }*/
     var event = JSON.parse(data);
     var x = (event.x * 8) + 160;
     var y = (event.y * 8) + 160;
