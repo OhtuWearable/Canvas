@@ -35,6 +35,8 @@ duk_ret_t native_abort(duk_context *ctx){
     duk_push_string(ctx, response);
     duk_put_prop_string(ctx, obj_idx, "response");
     (*env)->ReleaseStringUTFChars(env, json_response_jstring, response);
+    (*env)->DeleteLocalRef(env, jreqid);
+    (*env)->DeleteLocalRef(env, duktape_wrapper_jclass);
     return 1;
 }
 
@@ -99,5 +101,29 @@ duk_ret_t native_xmlhttprequest(duk_context *ctx){
     duk_push_string(ctx, response);
     duk_put_prop_string(ctx, obj_idx, "response");
     (*env)->ReleaseStringUTFChars(env, json_response_jstring, response);
+
+    //(*env)->DeleteLocalRef(env, response_jstring);
+
+    //(*env)->ReleaseStringUTFChars(env, jreqid, reqid);
+
+    //(*env)->ReleaseStringUTFChars(env, jmethod, method);
+
+    //(*env)->ReleaseStringUTFChars(env, jurl, url);
+
+    //(*env)->ReleaseStringUTFChars(env, jdata, data);
+    //(*env)->ReleaseStringUTFChars(env, jheaders, headers);
+    //(*env)->ReleaseStringUTFChars(env, jusername, username);
+    //(*env)->ReleaseStringUTFChars(env, jpassword, password);
+
+    //(*env)->DeleteLocalRef(env, response_jstring);
+    (*env)->DeleteLocalRef(env, jreqid);
+    (*env)->DeleteLocalRef(env, jmethod);
+    (*env)->DeleteLocalRef(env, jurl);
+    (*env)->DeleteLocalRef(env, jdata);
+    (*env)->DeleteLocalRef(env, jheaders);
+    (*env)->DeleteLocalRef(env, jusername);
+    (*env)->DeleteLocalRef(env, jpassword);
+    (*env)->DeleteLocalRef(env, duktape_wrapper_jclass);
+
     return 1;
 }
