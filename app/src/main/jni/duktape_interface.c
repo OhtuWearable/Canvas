@@ -15,6 +15,18 @@ void myFatal (duk_context *ctx, duk_errcode_t code, const char *msg) {
     exit(-1);
 }
 
+duk_ret_t consoleLog(duk_context *ctx){
+
+    //String strokeStyle
+    const char *message = duk_require_string(ctx, 0);
+     __android_log_write(ANDROID_LOG_DEBUG, "JS consoleLog", message);
+
+
+    duk_pop(ctx);
+
+    return 1;
+}
+
 //Run script on context
 jstring Java_com_ohtu_wearable_canvas_DuktapeWrapper_runScriptOnContext
 (JNIEnv *env, jobject thisObj, jlong context_pointer, jstring script) {
@@ -96,6 +108,10 @@ JNIEXPORT void JNICALL Java_com_ohtu_wearable_canvas_DuktapeWrapper_runScript
         duk_put_prop_string(ctx, -2, "native_xmlhttprequest");
         duk_pop(ctx); /* pop global */
 
+            duk_push_global_object(ctx);
+            duk_push_c_function(ctx, consoleLog, 1);
+            duk_put_prop_string(ctx, -2, "consoleLog");
+            duk_pop(ctx); /* pop global */
         //I need access to the native_abort()
         /*duk_push_global_object(ctx);
         duk_push_c_function(ctx, native_abort, 1);
