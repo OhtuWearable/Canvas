@@ -21,7 +21,9 @@ function init() {
     prevY = 160;
     prevZ = 160;
     lapse = 0;
-    for (var i = 0; i < 100; i++){
+
+    //if we make ~ > 130 calls to getData, program crashes to java.util.concurrent.RejectedExecutionException
+    for (var i = 0; i < 130; i++){
         getData();
     }
 }
