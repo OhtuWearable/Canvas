@@ -15,6 +15,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 
@@ -96,6 +97,11 @@ public class XMLHTTPRequest extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
+        /*Random r=new Random();
+        float x=-5+r.nextFloat()*10;
+        float y=-5+r.nextFloat()*10;
+        float z=-5+r.nextFloat()*10;
+        String resp="{\"x\":"+x+", \"y\":"+y+", \"z\":"+z+"}";*/
         MainActivity.wrapper.runScriptOnContext(this.contextPointer, "xmlHttpRequests[\"" + reqID + "\"].readyState=4;");
         MainActivity.wrapper.runScriptOnContext(this.contextPointer, "xmlHttpRequests[\"" + reqID + "\"].status=" + this.status + ";");
         MainActivity.wrapper.runScriptOnContext(this.contextPointer, "xmlHttpRequests[\"" + reqID + "\"].responseText=\'" + result + "\';");
