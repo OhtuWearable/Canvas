@@ -34,9 +34,7 @@ xhr.onreadystatechange = function() {
             plotData(data);
          }
          }
-        for(var i=0; i<100000; i++){
 
-        }
             xhr.open("GET", "http://127.0.0.1:8080/feeds/1", true);
             xhr.send();
 
