@@ -12,7 +12,7 @@ duk_ret_t native_abort(duk_context *ctx){
     jobject *obj = (JNIEnv *)duk_require_pointer(ctx, -1);
 
     //Get DuktapeWrapper(the class)
-    jclass duktape_wrapper_jclass=(*env)->GetObjectClass(env, obj);
+    jclass duktape_wrapper_jclass = (*env)->FindClass(env, "com/ohtu/wearable/canvas/DuktapeWrapper");
 
     //This is the signature of performJavaHttpAbort()(in DuktapeWrapper)
     const char *signature ="(Ljava/lang/String;)Ljava/lang/String;";
@@ -35,6 +35,7 @@ duk_ret_t native_abort(duk_context *ctx){
     duk_push_string(ctx, response);
     duk_put_prop_string(ctx, obj_idx, "response");
     (*env)->ReleaseStringUTFChars(env, json_response_jstring, response);
+    (*env)->DeleteLocalRef(env, jreqid);
     return 1;
 }
 
@@ -58,7 +59,7 @@ duk_ret_t native_xmlhttprequest(duk_context *ctx){
     jobject *obj = (JNIEnv *)duk_require_pointer(ctx, -1);
 
     //Get DuktapeWrapper(the class)
-    jclass duktape_wrapper_jclass=(*env)->GetObjectClass(env, obj);
+    jclass duktape_wrapper_jclass = (*env)->FindClass(env, "com/ohtu/wearable/canvas/DuktapeWrapper");
 
     //This is the signature of performJavaHttpRequest()(in DuktapeWrapper)
     const char *signature ="(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)Ljava/lang/String;";
@@ -99,5 +100,13 @@ duk_ret_t native_xmlhttprequest(duk_context *ctx){
     duk_push_string(ctx, response);
     duk_put_prop_string(ctx, obj_idx, "response");
     (*env)->ReleaseStringUTFChars(env, json_response_jstring, response);
+
+    (*env)->DeleteLocalRef(env, jreqid);
+    (*env)->DeleteLocalRef(env, jmethod);
+    (*env)->DeleteLocalRef(env, jurl);
+    (*env)->DeleteLocalRef(env, jdata);
+    (*env)->DeleteLocalRef(env, jheaders);
+    (*env)->DeleteLocalRef(env, jusername);
+    (*env)->DeleteLocalRef(env, jpassword);
     return 1;
 }
