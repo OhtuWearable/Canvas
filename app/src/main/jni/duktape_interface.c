@@ -34,15 +34,17 @@ jstring Java_com_ohtu_wearable_canvas_DuktapeWrapper_runScriptOnContext
     char peval[2555];
     const char *real_script = (*env)->GetStringUTFChars(env, script, 0);
     duk_peval_string(ctx, real_script);
-    /*
+
     char ret[2550];
+    char* empty = "";
     if (duk_get_type(ctx, -1) == DUK_TYPE_NUMBER) {
         sprintf(ret, "%lf", (double)duk_get_number(ctx, -1));
-    }
-    if (duk_get_type(ctx, -1) == DUK_TYPE_STRING) {
+    } else if (duk_get_type(ctx, -1) == DUK_TYPE_STRING) {
         sprintf(ret, "%s", (char*) duk_get_string(ctx, -1));
+    } else {
+        sprintf(ret, "%s", empty);
     }
-    return (*env)->NewStringUTF(env, ret);*/
+    return (*env)->NewStringUTF(env, ret);
 }
 
 

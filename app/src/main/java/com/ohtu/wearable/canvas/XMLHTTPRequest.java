@@ -89,8 +89,8 @@ public class XMLHTTPRequest extends AsyncTask<String, Void, String> {
     }
 
     private String execCallback(String callback){
-        String runRet= MainActivity.wrapper.runScriptOnContext(this.contextPointer, "if(xmlHttpRequests[\"" + reqID + "\"]."+callback+"!=null){xmlHttpRequests[\"" + reqID + "\"]."+callback+"();}");
-        //Log.d("EXEC", runRet);
+        String runRet = MainActivity.wrapper.runScriptOnContext(this.contextPointer, "if(xmlHttpRequests[\"" + reqID + "\"]."+callback+"!=null){xmlHttpRequests[\"" + reqID + "\"]."+callback+"();}");
+        Log.d("EXEC", runRet);
         return runRet;
     }
 
@@ -105,9 +105,9 @@ public class XMLHTTPRequest extends AsyncTask<String, Void, String> {
         MainActivity.wrapper.runScriptOnContext(this.contextPointer, "xmlHttpRequests[\"" + reqID + "\"].status=" + this.status + ";");
         MainActivity.wrapper.runScriptOnContext(this.contextPointer, "xmlHttpRequests[\"" + reqID + "\"].responseText=\'" + result + "\';");
         MainActivity.wrapper.runScriptOnContext(this.contextPointer, "xmlHttpRequests[\"" + reqID + "\"].responseHeaders=Duktape.dec(\'jx\', \'" + this.responseHeaders + "\');");
-        //Log.d("RESPONSE", this.responseHeaders);
+        Log.d("RESPONSE", this.responseHeaders);
         String ret = this.execCallback("onreadystatechange");
-        //Log.d("XMLHTTPREQUEST-RESULT", reqID + ": " + ret);
+        Log.d("XMLHTTPREQUEST-RESULT", reqID + ": " + ret);
     }
 
     private String exec() {
