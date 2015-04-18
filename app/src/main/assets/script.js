@@ -10,40 +10,46 @@ var lapse;
 var arrayX = [];
 var arrayY = [];
 var arrayZ = [];
-var r;
 
-canvas = document.getElementById('plotCanvas');
-ctx = canvas.getContext("2d");
-prevX = 160;
-prevY = 160;
-prevZ = 160;
-lapse = 0;
+function init(){
 
-var xhr=new XMLHttpRequest();
+    canvas = document.getElementById('plotCanvas');
+    ctx = canvas.getContext("2d");
+    prevX = 160;
+    prevY = 160;
+    prevZ = 160;
+    lapse = 0;
 
-var x=1;
+    var xhr=new XMLHttpRequest();
 
-xhr.onreadystatechange = function() {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-        var data=Duktape.dec('jx', xhr.responseText);
-        if(data.x!=null && data.y!=null && data.z!=null){
-         if (arrayX.length == 32) {
-            lapse = 0;
-            plotData2(data);
-         } else {
-            plotData(data);
-         }
-         }
+    var x=1;
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+
+            //var data=Duktape.dec('jx', xhr.responseText);
+            var data=JSON.parse(xhr.responseText);
+
+            if(data.x!=null && data.y!=null && data.z!=null){
+                 if (arrayX.length == 32) {
+                    lapse = 0;
+                    plotData2(data);
+                } else {
+                    plotData(data);
+                }
+            }
 
             xhr.open("GET", "http://127.0.0.1:8080/feeds/1", true);
             xhr.send();
+            x++;
+            return " ";
+        }
+    };
 
-        x++;
-    }
-};
-xhr.open("GET", "http://127.0.0.1:8080/feeds/1", true);
-xhr.send();
+    xhr.open("GET", "http://127.0.0.1:8080/feeds/1", true);
+    xhr.send();
 
+}
 
 function plotData(data) {
     /*if (lapse == 32) {

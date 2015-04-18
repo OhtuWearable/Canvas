@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.wearable.view.WatchViewStub;
-import android.util.Log;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -51,9 +50,6 @@ public class CanvasElement extends Activity {
         bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmap);
         canvas.drawColor(0xffffffff);
-
-//        LinearLayout ll = (LinearLayout) stub.findViewById(R.id.canvas);
-//        ll.setBackgroundDrawable(new BitmapDrawable(bitmap));
 
     }
 
@@ -107,21 +103,22 @@ public class CanvasElement extends Activity {
         //1: draw line
         int point[] = {1, x, y};
         path.add(point);
-        /*
-        paint.setColor(Color.parseColor("#000000"));
-        //ToDo: implement line drawing here
-
-        canvas.drawLine(lastX, lastY, x, y, paint);
-        lastX = x;
-        lastY = y;
-        Log.d("Canvas Element", "drawing line from: " + lastX + ", " + lastY +"," + " to: " + x +", " + y);*/
     }
 
+    /**
+     *
+     * @param x
+     * @param y
+     */
     public void moveTo(int x, int y) {
         int point[] = {0, x, y};
         path.add(point);
     }
 
+    /**
+     *
+     * @param strokeStyle
+     */
     public void stroke(String strokeStyle){
         paint.setColor(Color.parseColor(strokeStyle));
         while (!path.isEmpty()){

@@ -17,10 +17,8 @@ void myFatal (duk_context *ctx, duk_errcode_t code, const char *msg) {
 
 duk_ret_t consoleLog(duk_context *ctx){
 
-    //String strokeStyle
     const char *message = duk_require_string(ctx, 0);
      __android_log_write(ANDROID_LOG_DEBUG, "JS consoleLog", message);
-
 
     duk_pop(ctx);
 
@@ -36,6 +34,7 @@ jstring Java_com_ohtu_wearable_canvas_DuktapeWrapper_runScriptOnContext
     char peval[2555];
     const char *real_script = (*env)->GetStringUTFChars(env, script, 0);
     duk_peval_string(ctx, real_script);
+    /*
     char ret[2550];
     if (duk_get_type(ctx, -1) == DUK_TYPE_NUMBER) {
         sprintf(ret, "%lf", (double)duk_get_number(ctx, -1));
@@ -43,7 +42,7 @@ jstring Java_com_ohtu_wearable_canvas_DuktapeWrapper_runScriptOnContext
     if (duk_get_type(ctx, -1) == DUK_TYPE_STRING) {
         sprintf(ret, "%s", (char*) duk_get_string(ctx, -1));
     }
-    return (*env)->NewStringUTF(env, ret);
+    return (*env)->NewStringUTF(env, ret);*/
 }
 
 
@@ -137,6 +136,15 @@ JNIEXPORT void JNICALL Java_com_ohtu_wearable_canvas_DuktapeWrapper_runScript
    	    __android_log_write(ANDROID_LOG_DEBUG, "JNI drawScript", duk_safe_to_string(ctx, -1));
    	}
    	duk_pop(ctx); /* pop global */
+
+   	const char *initScript = "init()";
+    __android_log_write(ANDROID_LOG_DEBUG, "JNI initScript", initScript);
+    if (duk_peval_string(ctx, initScript) != 0) {
+        __android_log_write(ANDROID_LOG_ERROR, "JNI initScript", duk_safe_to_string(ctx, -1));
+    } else {
+        __android_log_write(ANDROID_LOG_DEBUG, "JNI initScript", duk_safe_to_string(ctx, -1));
+    }
+    duk_pop(ctx); /* pop global */
 
     //duk_destroy_heap(ctx);
 }
