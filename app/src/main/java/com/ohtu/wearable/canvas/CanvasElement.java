@@ -16,7 +16,8 @@ import java.util.List;
 import java.util.Queue;
 
 /**
- * emulates HTML5 canvas functionality on android.canvas
+ * Emulates HTML5 canvas functionality on android.canvas
+ * Methods implemented: fillRect, clearRect, beginPath, lineTo, stroke
  */
 public class CanvasElement extends Activity {
 
@@ -84,8 +85,7 @@ public class CanvasElement extends Activity {
     }
 
     /**
-     *
-     *
+     *  Starts new path
      */
     public void beginPath(){
         path = new LinkedList<>();
@@ -94,7 +94,7 @@ public class CanvasElement extends Activity {
     }
 
     /**
-     * Draws line from last point to point given as parameters
+     * Adds line from last point to point given as parameters to path
      *
      * @param x
      * @param y
@@ -106,6 +106,7 @@ public class CanvasElement extends Activity {
     }
 
     /**
+     * Moves drawing point to coordinates given as parameters
      *
      * @param x
      * @param y
@@ -116,6 +117,7 @@ public class CanvasElement extends Activity {
     }
 
     /**
+     * Draws the path
      *
      * @param strokeStyle
      */
@@ -138,7 +140,7 @@ public class CanvasElement extends Activity {
     /**
      * parses colors from color string
      *
-     * @param colors colors as a string formatted 'rgb(rrr,ggg,bbb)' or '#rrggbb'
+     * @param colors colors as a string formatted 'rgb(rrr,ggg,bbb)' or '#rrggbb' or color in colorStrings list
      */
     private void parseColors(String colors){
         List<String> colorStrings = new ArrayList<>(Arrays.asList("red", "blue", "green", "black", "white", "gray", "cyan", "magenta", "yellow", "lightgray", "darkgray", "grey", "lightgrey", "darkgrey", "aqua", "fuschia", "lime", "maroon", "navy", "olive", "purple", "silver", "teal"));

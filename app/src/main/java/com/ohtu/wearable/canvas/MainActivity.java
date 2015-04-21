@@ -69,6 +69,11 @@ public class MainActivity extends Activity {
 
     }
 
+    @Override
+    protected void onDestroy(){
+
+    }
+
     /*
     //doesn't work on watch, no direct internet connection
     private void downloadAndRunScript(WatchViewStub stub){

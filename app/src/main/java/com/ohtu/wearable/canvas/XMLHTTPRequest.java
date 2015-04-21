@@ -105,9 +105,9 @@ public class XMLHTTPRequest extends AsyncTask<String, Void, String> {
         MainActivity.wrapper.runScriptOnContext(this.contextPointer, "xmlHttpRequests[\"" + reqID + "\"].status=" + this.status + ";");
         MainActivity.wrapper.runScriptOnContext(this.contextPointer, "xmlHttpRequests[\"" + reqID + "\"].responseText=\'" + result + "\';");
         MainActivity.wrapper.runScriptOnContext(this.contextPointer, "xmlHttpRequests[\"" + reqID + "\"].responseHeaders=Duktape.dec(\'jx\', \'" + this.responseHeaders + "\');");
-        Log.d("RESPONSE", this.responseHeaders);
+        if (this.responseHeaders != null) Log.d("RESPONSE", this.responseHeaders);
         String ret = this.execCallback("onreadystatechange");
-        Log.d("XMLHTTPREQUEST-RESULT", reqID + ": " + ret);
+        if (ret != null) Log.d("XMLHTTPREQUEST-RESULT", reqID + ": " + ret);
     }
 
     private String exec() {

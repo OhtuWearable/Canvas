@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 
 /**
- * Wrapper class to wrap calls from JNI (duktape) to CanvasElement
+ * Wrapper class to wrap calls from JNI (duktape) to CanvasElement & XMLHTTPRequest
  *
  */
 public class DuktapeWrapper {
@@ -113,6 +113,16 @@ public class DuktapeWrapper {
         req.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
     }
 
+    /**
+     * Calls CanvasElement.fillRect
+     *
+     * @param fillStyle
+     * @param strx
+     * @param stry
+     * @param strwidth
+     * @param strheight
+     * @return
+     */
     public static String fillRect(String fillStyle, String strx, String stry, String strwidth, String strheight){
 
         Log.d("Draw", "drawCanvas " + fillStyle + " " + strx + " " + stry + " " + strwidth + " " + strheight);
@@ -129,6 +139,15 @@ public class DuktapeWrapper {
         return "rectangle drawn";
     }
 
+    /**
+     * Calls CanvasElement.clearTo();
+     *
+     * @param strx
+     * @param stry
+     * @param strwidth
+     * @param strheight
+     * @return
+     */
     public static String clearRect(String strx, String stry, String strwidth, String strheight){
 
         Log.d("Clear", "clearRect " + strx + " " + stry + " " + strwidth + " " + strheight);
@@ -140,9 +159,16 @@ public class DuktapeWrapper {
 
         canvasElement.clearRect(x, y, width, height);
 
-        return "rectangle drawn";
+        return "clear rectangle drawn";
     }
 
+    /**
+     * Calls CanvasElement.moveTo()
+     *
+     * @param strx
+     * @param stry
+     * @return
+     */
     public static String moveTo(String strx, String stry){
         int x = Integer.parseInt(strx);
         int y = Integer.parseInt(stry);
@@ -152,7 +178,7 @@ public class DuktapeWrapper {
     }
 
     /**
-     * Calls canvasElement.beginPath()
+     * Calls CanvasElement.beginPath()
      *
      * @return
      */
@@ -162,7 +188,7 @@ public class DuktapeWrapper {
     }
 
     /**
-     * Calls canvasElement.lineTo() function, call this from JNI
+     * Calls CanvasElement.lineTo() function, call this from JNI
      *
      * @param strx
      * @param stry
@@ -186,7 +212,7 @@ public class DuktapeWrapper {
     }
 
     /**
-     * Calls canvasElement.getWidth() function
+     * Calls CanvasElement.getWidth() function
      *
      * @return canvas width
      */
@@ -196,7 +222,7 @@ public class DuktapeWrapper {
     }
 
     /**
-     * Calls canvasElement.getHeight function
+     * Calls CanvasElement.getHeight function
      *
      * @return canvas height
      */
