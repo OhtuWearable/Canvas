@@ -5,14 +5,14 @@
 
 duk_ret_t jni_fill_rect(duk_context *ctx){
 
-    //get parameters frim DukTape heape
+    //get parameters from Duktape heap
     const char *fillstyle = duk_require_string(ctx, 0);
     const char *x = duk_require_string(ctx, 1);
     const char *y = duk_require_string(ctx, 2);
     const char *width = duk_require_string(ctx, 3);
     const char *height = duk_require_string(ctx, 4);
 
-    //get pointers to JNIEnv and JNIObj frum DukTape heap
+    //get pointers to JNIEnv and JNIObj from DukTape heap
     (void) duk_get_global_string(ctx, "JNIEnv");
     JNIEnv *env = (JNIEnv *)duk_require_pointer(ctx, -1);
     (void) duk_get_global_string(ctx, "JNIObj");
@@ -20,7 +20,7 @@ duk_ret_t jni_fill_rect(duk_context *ctx){
 
     jclass duktape_wrapper_jclass = (*env)->FindClass(env, "com/ohtu/wearable/canvas/DuktapeWrapper");
 
-    //paramaters (string fillstyle, string x, string y, string width, string height) and return parameter (string)
+    //parameters (string fillstyle, string x, string y, string width, string height) and return parameter (string)
     const char *signature = "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;";
     //get DuktapeWrapper.fillRect methodID
     jmethodID perform_fillRect_jmethodID = (*env)->GetStaticMethodID(env, duktape_wrapper_jclass, "fillRect", signature);
@@ -35,6 +35,14 @@ duk_ret_t jni_fill_rect(duk_context *ctx){
     //call DuktapeWrapper.fillRect method with parameters and save response to response_jstring
     jstring response_jstring = (jstring) (*env)->CallStaticObjectMethod(env, duktape_wrapper_jclass, perform_fillRect_jmethodID, jfillstyle, jx, jy, jwidth, jheight);
 
+    //delete local references to parameter + response strings
+    (*env)->DeleteLocalRef(env, jfillstyle);
+    (*env)->DeleteLocalRef(env, jx);
+    (*env)->DeleteLocalRef(env, jy);
+    (*env)->DeleteLocalRef(env, jwidth);
+    (*env)->DeleteLocalRef(env, jheight);
+    (*env)->DeleteLocalRef(env, response_jstring);
+
     duk_pop(ctx);
 
     return 1;
@@ -42,33 +50,26 @@ duk_ret_t jni_fill_rect(duk_context *ctx){
 
 duk_ret_t jni_clear_rect(duk_context *ctx){
 
-    //get parameters frim DukTape heape
     const char *x = duk_require_string(ctx, 0);
     const char *y = duk_require_string(ctx, 1);
     const char *width = duk_require_string(ctx, 2);
     const char *height = duk_require_string(ctx, 3);
 
-    //get pointers to JNIEnv and JNIObj frum DukTape heap
     (void) duk_get_global_string(ctx, "JNIEnv");
     JNIEnv *env = (JNIEnv *)duk_require_pointer(ctx, -1);
     (void) duk_get_global_string(ctx, "JNIObj");
     jobject *obj = (jobject *)duk_require_pointer(ctx, -1);
 
-    //jclass duktape_wrapper_jclass = (*env)->GetObjectClass(env, obj);
     jclass duktape_wrapper_jclass = (*env)->FindClass(env, "com/ohtu/wearable/canvas/DuktapeWrapper");
 
-    //paramaters (string fillstyle, string x, string y, string width, string height) and return parameter (string)
     const char *signature = "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;";
-    //get DuktapeWrapper.fillRect methodID
     jmethodID perform_clearRect_jmethodID = (*env)->GetStaticMethodID(env, duktape_wrapper_jclass, "clearRect", signature);
 
-    //jstrings from parameter strings
     jstring jx = (*env)->NewStringUTF(env, x);
     jstring jy = (*env)->NewStringUTF(env, y);
     jstring jwidth = (*env)->NewStringUTF(env, width);
     jstring jheight = (*env)->NewStringUTF(env, height);
 
-    //call DuktapeWrapper.fillRect method with parameters and save response to response_jstring
     jstring response_jstring = (jstring) (*env)->CallStaticObjectMethod(env, duktape_wrapper_jclass, perform_clearRect_jmethodID, jx, jy, jwidth, jheight);
 
     (*env)->DeleteLocalRef(env, jx);
@@ -85,7 +86,6 @@ duk_ret_t jni_clear_rect(duk_context *ctx){
 
 duk_ret_t jni_line_to(duk_context *ctx){
 
-    //String fillStyle, int x, int y
     const char *x = duk_require_string(ctx, 0);
     const char *y = duk_require_string(ctx, 1);
 
@@ -118,7 +118,6 @@ duk_ret_t jni_line_to(duk_context *ctx){
 
 duk_ret_t jni_move_to(duk_context *ctx){
 
-    //String fillStyle, int x, int y
     const char *x = duk_require_string(ctx, 0);
     const char *y = duk_require_string(ctx, 1);
 
@@ -176,7 +175,6 @@ duk_ret_t jni_begin_path(duk_context *ctx){
 
 duk_ret_t jni_stroke(duk_context *ctx){
 
-    //String strokeStyle
     const char *strokeStyle = duk_require_string(ctx, 0);
 
     (void) duk_get_global_string(ctx, "JNIEnv");
