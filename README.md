@@ -7,4 +7,4 @@ Canvas and XMLHttpRequest on Android Wear
 implemented methods fillRect, clearRect, beginPath, lineTo, moveTo
 
 
-Uses Duktape as javascript engine
+Uses <a href = "http://duktape.org/" >Duktape</a> as javascript engine
