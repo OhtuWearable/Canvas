@@ -88,6 +88,11 @@ public class XMLHTTPRequest extends AsyncTask<String, Void, String> {
         return exec();
     }
 
+    /**
+     * Executes a XMLHttpRequest callback (onreadystatechange, onabort, ...).
+     *
+     * @param callback
+     */
     private String execCallback(String callback){
         String runRet = MainActivity.wrapper.runScriptOnContext(this.contextPointer, "if(xmlHttpRequests[\"" + reqID + "\"]."+callback+"!=null){xmlHttpRequests[\"" + reqID + "\"]."+callback+"();}");
         Log.d("EXEC", runRet);
@@ -148,6 +153,11 @@ public class XMLHTTPRequest extends AsyncTask<String, Void, String> {
         this.reqID = reqID;
     }
 
+    /**
+     * Creates a JSON string from a HashMap that contains HTTP headers.
+     *
+     * @param headers
+     */
     private String headersToJSON(Map<String, List<String>> headers) {
         String json = "";
         for (Map.Entry<String, List<String>> k : headers.entrySet()) {
@@ -160,6 +170,11 @@ public class XMLHTTPRequest extends AsyncTask<String, Void, String> {
         return "[" + json.substring(0, json.length() - 1) + "]";
     }
 
+    /**
+     * Gets data from a server.
+     *
+     * @param method
+     */
     private String getData(String method) {
         InputStream is = null;
         String retStr = "";
@@ -206,6 +221,11 @@ public class XMLHTTPRequest extends AsyncTask<String, Void, String> {
         return retStr;
     }
 
+    /**
+     * Posts data to a server.
+     *
+     * @param method
+     */
     private String postData(String method) {
         InputStream is = null;
         String retStr = "";

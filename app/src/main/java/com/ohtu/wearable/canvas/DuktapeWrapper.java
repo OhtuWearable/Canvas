@@ -27,15 +27,38 @@ public class DuktapeWrapper {
 
     public static HashMap<String, AsyncTask> requests=new HashMap<>();
 
+    /**
+     * Executes JavaScript on DukTape.
+     *
+     * @param canvas
+     * @param script
+     */
     public native void runScript(String canvas, String script);
 
+    /**
+     * Executes JavaScript on DukTape on certain context.
+     *
+     * @param contextPointer
+     * @param script
+     */
     public native String runScriptOnContext(long contextPointer, String script);
 
+    /**
+     * Executes JavaScript on DukTape.
+     *
+     * @param lib
+     * @param script
+     */
     public void execJS(String lib, String script){
         runScript(lib, script);
         Log.d("SCRIPT", script);
     }
 
+    /**
+     * Aborts a XMLHTTPRequest.
+     *
+     * @param reqID
+     */
     public static String performJavaHttpAbort(String reqID){
         if(DuktapeWrapper.requests.get(reqID)!=null){
             if(!DuktapeWrapper.requests.get(reqID).isCancelled()){
@@ -45,6 +68,19 @@ public class DuktapeWrapper {
         return "";
     }
 
+    /**
+     * Performs a HTTP-request.
+     *
+     * @param url
+     * @param method
+     * @param data
+     * @param reqid
+     * @param contextPointer
+     * @param headers
+     * @param username
+     * @param password
+     * @param async
+     */
     public static String performJavaHttpRequest(String method,
                                                 String url,
                                                 String data,
@@ -77,6 +113,11 @@ public class DuktapeWrapper {
         return "";
     }
 
+    /**
+     * Parses a list of headers from the JavaScript side to a HashMap.
+     *
+     * @param headers
+     */
     private static HashMap<String, String> headersToMap(String headers){
         HashMap<String, String> map=new HashMap<>();
         if(headers.contains("#")){
@@ -91,6 +132,19 @@ public class DuktapeWrapper {
         return map;
     }
 
+    /**
+     * Creates a new instance of XMLHTTPRequest (AsyncTask).
+     *
+     * @param url
+     * @param method
+     * @param data
+     * @param contextPointer
+     * @param reqID
+     * @param headers
+     * @param username
+     * @param password
+     * @param async
+     */
     public static void newRequest(String url,
                                   String method,
                                   String data,
